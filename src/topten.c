@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)topten.c	3.1	92/11/20	*/
+/*	this file has been modified by saihack, 21.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -52,7 +52,7 @@ struct toptenentry {
 	char sex;
 	char name[NAMSZ+1];
 	char death[DTHSZ+1];
-	char date[7];		/* yymmdd */
+	long date;		/* yyyymmdd */
 } *tt_head;
 
 static void NDECL(outheader);
@@ -79,11 +79,11 @@ struct toptenentry *tt;
 #endif
 #define TTFIELDS 12
 #ifdef NO_SCAN_BRACK
-	if(fscanf(rfile,"%6s %d %d %d %d %d %d %ld%*c%c%c %s %s%*c",
+	if(fscanf(rfile,"%ld %d %d %d %d %d %d %ld%*c%c%c %s %s%*c",
 #else
-	if(fscanf(rfile, "%6s %d %d %d %d %d %d %ld %c%c %[^,],%[^\n]%*c",
+	if(fscanf(rfile, "%ld %d %d %d %d %d %d %ld %c%c %[^,],%[^\n]%*c",
 #endif
-			tt->date, &tt->uid,
+			&tt->date, &tt->uid,
 			&tt->deathdnum, &tt->deathlev,
 			&tt->maxlvl, &tt->hp, &tt->maxhp, &tt->points,
 			&tt->plchar, &tt->sex,
@@ -108,9 +108,9 @@ struct toptenentry *tt;
 #ifdef NO_SCAN_BRACK
 	nsb_mung_line(tt->name);
 	nsb_mung_line(tt->death);
-	(void) fprintf(rfile,"%6s %d %d %d %d %d %d %ld %c%c %s %s\n",
+	(void) fprintf(rfile,"%ld %d %d %d %d %d %d %ld %c%c %s %s\n",
 #else
-	(void) fprintf(rfile,"%6s %d %d %d %d %d %d %ld %c%c %s,%s\n",
+	(void) fprintf(rfile,"%ld %d %d %d %d %d %d %ld %c%c %s,%s\n",
 #endif
 		tt->date, tt->uid,
 		tt->deathdnum, tt->deathlev,
@@ -183,7 +183,7 @@ int how;
 			(void) strncat(t0->death, killer, DTHSZ);
 			break;
 	}
-	Strcpy(t0->date, get_date());
+	t0->date = yyyymmdd((time_t) 0);
 	t0->tt_next = 0;
 #ifdef UPDATE_RECORD_IN_PLACE
 	t0->fpos = -1L;

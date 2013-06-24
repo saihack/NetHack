@@ -1,10 +1,11 @@
-/*	SCCS Id: @(#)hacklib.c	 3.1	 91/11/25	*/
+/*	this file has been modified by saihack, 21.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* Copyright (c) Robert Patrick Rankin, 1991		  */
 /* NetHack may be freely redistributed.  See license for details. */
 
 /* We could only include config.h, except for the overlay definitions... */
 #include "hack.h"
+#include <time.h>
 /*=
     Assorted 'small' utility routines.	They're virtually independent of
 NetHack, except that rounddiv may call panic().
@@ -39,11 +40,7 @@ NetHack, except that rounddiv may call panic().
 	int		night		(void)
 	int		midnight	(void)
 =*/
-#ifdef LINT
-# define Static		/* pacify lint */
-#else
-# define Static static
-#endif
+
 
 #ifdef OVLB
 boolean
@@ -464,6 +461,28 @@ get_date()
 	if(datestr[4] == ' ') datestr[4] = '0';
 	return(datestr);
 }
+
+/* backport from 3.2.3 */
+long
+yyyymmdd(date)
+time_t date;
+{
+  long datenum;
+  struct tm *lt;
+
+  if (date == 0)
+    lt = getlt();
+  else
+    lt = localtime(&date);
+
+
+  datenum = (long)lt->tm_year + 1900L;
+  /* yyyy --> yyyymm */
+  datenum = datenum * 100L + (long)(lt->tm_mon + 1);
+  /* yyyymm --> yyyymmdd */
+  datenum = datenum * 100L + (long)lt->tm_mday;
+  return datenum;
+} 
 
 /*
  * moon period = 29.53058 days ~= 30, year = 365.2422 days
