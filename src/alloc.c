@@ -11,20 +11,6 @@
 #include "config.h"
 long *FDECL(alloc,(unsigned int));
 
-#ifdef LINT
-/*
-   a ridiculous definition, suppressing
-	"possible pointer alignment problem" for (long *) malloc()
-   from lint
-*/
-long *
-alloc(n) unsigned int n; {
-long dummy = ftell(stderr);
-	if(n) dummy = 0;	/* make sure arg is used */
-	return(&dummy);
-}
-
-#else
 #ifndef __TURBOC__
 extern void VDECL(panic, (const char *,...)) PRINTF_F(1,2);
 
@@ -32,14 +18,13 @@ long *
 alloc(lth)
 register unsigned int lth;
 {
-	register genericptr_t ptr;
+	genericptr_t ptr;
 
-	if(!(ptr = malloc(lth)))
+	if(!(ptr = calloc(lth,1))) /* allways initialize memory */
 		panic("Cannot get %d bytes", lth);
 	return((long *) ptr);
 }
 #endif
 
-#endif /* LINT /**/
 
 /*alloc.c*/
