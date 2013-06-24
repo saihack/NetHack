@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)unixconf.h	3.1	90/22/02	*/
+/* this file has been modified by saihack, 21.06.2013 */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -19,7 +19,7 @@
  */
 
 /* define exactly one of the following four choices */
-#define BSD		/* define for 4.n BSD  */
+/* #define BSD		/* define for 4.n BSD  */
 			/* also for relatives like SunOS, Linux and DG/UX */
 /* #define ULTRIX	/* define for Ultrix v3.0 or higher (but not lower) */
 			/* Use BSD for < v3.0 */
@@ -33,8 +33,8 @@
 /* #define SVR4		/* use in addition to SYSV for System V Release 4 */
 #define NETWORK	/* if running on a networked system */
 			/* e.g. Suns sharing a playground through NFS */
-#define SUNOS4	/* SunOS 4.x */
-/* #define LINUX  /* Another Unix clone running on Intel processors */
+/* #define SUNOS4	/* SunOS 4.x */
+#define LINUX  /* Another Unix clone running on Intel processors */
 /* #define GENIX	/* Yet Another Unix Clone */
 /* #define HISX		/* Bull Unix for XPS Machines */
 /* #define BOS		/* Bull Open Software - Unix for DPX/2 Machines */
@@ -45,7 +45,7 @@
 			/* or ANSI color support on termcap systems */
 			/* or X11 color	*/
 /* #define POSIX_JOB_CONTROL	/* use System V POSIX job control */
-/* #define POSIX_TYPES	/* use POSIX types for system calls and termios */
+#define POSIX_TYPES	/* use POSIX types for system calls and termios */
                         /* define for platforms using the GNU libraries */
                         /* linux, etc .. */
 
@@ -107,7 +107,7 @@
  * A stat system call is done on the mailbox every MAILCKFREQ moves.
  */
 
-#define MAIL			/* Deliver mail during the game */
+/* #define MAIL			/* Deliver mail during the game */
 
 /* The Andrew Message System does mail a little differently from normal
  * UNIX.  Mail is deposited in the user's own directory in ~/Mailbox
@@ -217,7 +217,7 @@
 #endif
 #define tgetch getchar
 
-#define SHELL		/* do not delete the '!' command */
+/* #define SHELL		/* do not delete the '!' command */
 
 #include "system.h"
 

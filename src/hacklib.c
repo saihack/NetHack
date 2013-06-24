@@ -100,7 +100,7 @@ char *
 s_suffix(s)		/* return a name converted to possessive */
     const char *s;
 {
-    Static char buf[BUFSZ];
+    static char buf[BUFSZ];
 
     Strcpy(buf, s);
     if(!strcmpi(buf, "it"))
@@ -116,7 +116,7 @@ char *
 xcrypt(str)		/* trivial text encryption routine (see makedefs) */
 const char *str;
 {
-    Static char buf[BUFSZ];
+    static char buf[BUFSZ];
     register const char *p;
     register char *q;
     register int bitmask;
@@ -169,7 +169,7 @@ char *
 visctrl(c)		/* make a displayable string from a character */
     char c;
 {
-    Static char ccc[3];
+    static char ccc[3];
 
     c &= 0177;
 
@@ -205,7 +205,7 @@ char *
 sitoa(n)		/* make a signed digit string from a number */
     int n;
 {
-    Static char buf[13];
+    static char buf[13];
 
     (void) sprintf(buf, (n < 0) ? "%d" : "+%d", n);
     return buf;
@@ -452,7 +452,7 @@ getyear()
 char *
 get_date()
 {
-	Static char datestr[7];
+	static char datestr[7];
 	register struct tm *lt = getlt();
 
 	Sprintf(datestr, "%2d%2d%2d",

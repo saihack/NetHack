@@ -1,24 +1,25 @@
-/*	SCCS Id: @(#)system.h 3.1	92/12/11	*/
+/* this file has been modified by saihack, 21.06.2013 */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
+/* Linux definitions */
+#ifdef LINUX
+#include <sys/types.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+#endif
+
+
+
 #ifndef __GO32__  /* djgpp compiler for msdos */
 
 #define E extern
 
-/* some old <sys/types.h> may not define off_t and size_t; if your system is
- * one of these, define them by hand below
- */
-#if (defined(VMS) && !defined(__GNUC__)) || defined(MAC)
-# include <types.h>
-#else
-# ifndef AMIGA
-#  include <sys/types.h>
-# endif
-#endif
+
 
 #if (defined(MICRO) && !defined(TOS)) || defined(ANCIENT_VAXC)
 # if !defined(_SIZE_T) && !defined(__size_t) /* __size_t for CSet/2 */
@@ -45,7 +46,6 @@ typedef long	off_t;
 #endif
 
 #endif /* __GO32__ */
-
 /* You may want to change this to fit your system, as this is almost
  * impossible to get right automatically.
  * This is the type of signal handling functions.
@@ -132,11 +132,13 @@ E int FDECL(write, (int,char *,int));
 E int FDECL(link, (const char *, const char*));
 #else
 E long FDECL(lseek, (int,long,int));
+#ifndef LINUX
 # ifdef POSIX_TYPES
 E int FDECL(write, (int, const void *,unsigned));
 # else
 E int FDECL(write, (int,genericptr_t,unsigned));
 # endif
+#endif
 #endif /* ULTRIX */
 #ifndef	__SASC_60
 # ifdef OS2_CSET2	/* IBM CSet/2 */
@@ -327,6 +329,7 @@ E int FDECL(setuid, (int));
 /*# string(s).h #*/
 #ifndef _XtIntrinsic_h	/* <X11/Intrinsic.h> #includes <string[s].h> */
 
+#ifndef LINUX
 #if defined(ULTRIX) && defined(__GNUC__)
 #include <strings.h>
 #else
@@ -358,6 +361,7 @@ E int	FDECL(strlen, (const char *));
 #  endif /* HPUX */
 # endif /* MICRO */
 #endif /* ULTRIX */
+#endif /* LINUX */
 
 #endif	/* !_XtIntrinsic_h_ */
 

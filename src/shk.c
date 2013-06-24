@@ -578,9 +578,11 @@ register struct obj *obj, *merge;
 	}
 	/* fix for C343-218, C343-275 and C343-276 */
 	if (obj == uwep) uwepgone();
+
+	/* only for 3.4.
 	if (obj == uswapwep) uswapwepgone();
 	if (obj == uquiver) uqwepgone();
-
+	*/
 	dealloc_obj(obj);
 }
 

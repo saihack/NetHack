@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)config.h	3.1	92/08/29	*/
+/* this file has been modified by saihack, 21.06.2013 */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -107,7 +107,7 @@
 
 /* #define STUPID	/* avoid some complicated expressions if
 			   your C compiler chokes on them */
-/* #define TERMINFO	/* uses terminfo rather than termcap */
+#define TERMINFO	/* uses terminfo rather than termcap */
 			/* should be defined for HPUX and most, but not all,
 			   SYSV */
 			/* in particular, it should NOT be defined for the
@@ -235,12 +235,7 @@
  */
 
 #ifndef WIZARD		/* allow for compile-time or Makefile changes */
-# ifndef KR1ED
-#  define WIZARD  "wizard" /* the person allowed to use the -D option */
-# else
-#  define WIZARD
-#  define WIZARD_NAME "wizard"
-# endif
+#  define WIZARD  "games" /* the person allowed to use the -D option */
 #endif
 
 #define LOGFILE "logfile"	/* larger file for debugging purposes */
@@ -261,8 +256,8 @@
 
 #ifdef UNIX
 /* path and file name extension for compression program */
-# define COMPRESS "/usr/ucb/compress"	     /* Lempel-Ziv compression */
-# define COMPRESS_EXTENSION ".Z"	     /* compress's extension */
+/* # define COMPRESS "/usr/ucb/compress"	     /* Lempel-Ziv compression */
+/* # define COMPRESS_EXTENSION ".Z"	     /* compress's extension */
 
 /* An example of one alternative you might want to use: */
 /* # define COMPRESS "/usr/local/bin/gzip"   /* FSF gzip compression */
