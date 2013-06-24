@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)shk.c	3.1	93/05/19	*/
+/* this file has been modified by saihack, 23.06.2013 */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -576,6 +576,11 @@ register struct obj *obj, *merge;
 #endif
 		}
 	}
+	/* fix for C343-218, C343-275 and C343-276 */
+	if (obj == uwep) uwepgone();
+	if (obj == uswapwep) uswapwepgone();
+	if (obj == uquiver) uqwepgone();
+
 	dealloc_obj(obj);
 }
 
