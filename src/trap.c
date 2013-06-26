@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)trap.c	3.1	93/06/20	*/
+/*	/*	this file has been modified by saihack, 26.06.2013 */ 
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -2275,8 +2275,8 @@ boolean force;
 		if (ynq("Disarm it?") != 'y') return(1);
 		if (levl[x][y].doormask & D_TRAPPED) {
 		    ch = 15 +
-			 (pl_character[0] == 'R') ? u.ulevel*3 :
-			 u.ulevel;
+			 ((pl_character[0] == 'R') ? u.ulevel*3 :
+			 u.ulevel);
 		    exercise(A_DEX, TRUE);
 		    if(!force && (confused || Fumbling || 
 		                     rnd(75+level_difficulty()/2) > ch)) {
