@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)exper.c	3.1	90/22/02
+/*	this file has been modified by saihack, 26.06.2013 */ 
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -34,7 +34,7 @@ experience(mtmp, nk)	/* return # of exp points for mtmp after nk killed */
 	tmp = 1 + mtmp->m_lev * mtmp->m_lev;
 
 /*	For higher ac values, give extra experience */
-	if((i = find_mac(mtmp)) < 3) tmp += (7 - i) * (i < 0) ? 2 : 1;
+	if((i = find_mac(mtmp)) < 3) tmp += (7 - i) * ((i < 0) ? 2 : 1);
 
 /*	For very fast monsters, give extra experience */
 	if(ptr->mmove >= 12) tmp += (ptr->mmove >= 18) ? 5 : 3;
