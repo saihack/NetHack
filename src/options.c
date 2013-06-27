@@ -26,11 +26,7 @@ static struct Bool_Opt
 	const char *name;
 	boolean	*addr, initvalue;
 } boolopt[] = {
-#ifdef MFLOPPY
-	{"asksavedisk", &flags.asksavedisk, FALSE},
-#else
 	{"asksavedisk", (boolean *)0, FALSE},
-#endif
 	{"autopickup", &flags.pickup, TRUE},
 #if defined(MICRO) && !defined(AMIGA)
 	{"BIOS", &flags.BIOS, FALSE},
@@ -112,6 +108,7 @@ static struct Bool_Opt
 #endif
 	{"rest_on_space", &flags.rest_on_space, FALSE},
 	{"safe_pet", &flags.safe_dog, TRUE},
+	{"showbuc", &flags.show_buc, FALSE},
 #ifdef EXP_ON_BOTL
 	{"showexp", &flags.showexp, FALSE},
 #else
@@ -1137,9 +1134,6 @@ static const char *opt_intro[] = {
 	NULL,
 #if !defined(MICRO) && !defined(MAC)
 	"or use `NETHACKOPTIONS=\"<options>\"' in your environment;",
-# ifdef VMS
-	"-- for example, $ DEFINE NETHACKOPTIONS \"noautopickup,fruit:kumquat\"",
-# endif
 #endif
 	"or press \"O\" while playing, and type your <options> at the prompt.",
 	"In all cases, <options> is a list of options separated by commas.",
@@ -1163,12 +1157,7 @@ option_help()
     winid datawin;
 
     datawin = create_nhwindow(NHW_TEXT);
-#ifdef AMIGA
-    if(FromWBench){
-	Sprintf(buf,"Set options as OPTIONS= in %s or in icon;",configfile);
-    } else
-#endif
-	Sprintf(buf, "Set options as OPTIONS=<options> in %s;", configfile);
+    Sprintf(buf, "Set options as OPTIONS=<options> in %s;", configfile);
     opt_intro[CONFIG_SLOT] = (const char *) buf;
     for (i = 0; opt_intro[i]; i++)
 	putstr(datawin, 0, opt_intro[i]);

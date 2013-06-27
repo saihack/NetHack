@@ -55,6 +55,7 @@ struct flag {
 #endif
 	boolean  rest_on_space;	/* space means rest */
 	boolean  safe_dog;	/* give complete protection to the dog */
+	boolean  show_buc;	/* always show BUC status */
 #ifdef EXP_ON_BOTL
 	boolean  showexp;	/* show experience points */
 #endif
