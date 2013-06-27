@@ -428,17 +428,21 @@ peffects(otmp)
 			pline("Yecch!  This tastes %s.",
 			  Hallucination ? "overripe" : "rotten"
 			 );
-		else pline (Hallucination ?
-#ifdef TUTTI_FRUTTI
-		   "This tastes like 10%% real %s juice all-natural beverage." :
-		   "This tastes like %s%s juice.",
-		   otmp->odiluted ? "reconstituted " : "", pl_fruit
+		else {
+		    if (Hallucination) {
+		      pline("This tastes like 10%% real %s juice all-natural beverage.",
+			    otmp->odiluted ? "reconstituted " : "");		      
+		    } 
+		    else {
+		      pline("This tastes like %s%s juice.", 
+			    otmp->odiluted ? "reconstituted " : "",
+#ifdef TUTTI_FRUTTI			
+			    pl_fruit);
 #else
-		   "This tastes like 10%% real fruit juice all-natural beverage." :
-		   "This tastes like %sfruit juice.",
-		   otmp->odiluted ? "reconstituted " : ""
-#endif
-			    );
+			    "fruit");
+#endif		      
+		    }
+		}
 		if (otmp->otyp == POT_FRUIT_JUICE) {
 			lesshungry((otmp->odiluted ? 5 : 10) * (2 + bcsign(otmp)));
 			break;
@@ -570,9 +574,8 @@ peffects(otmp)
 			/* they went up a level */
 			if((ledger_no(&u.uz) == 1 && u.uhave.amulet) ||
 						      Can_rise_up(&u.uz)) {
-			    const char *riseup = "rise up, through the ceiling!";
 			    if(ledger_no(&u.uz) == 1) {
-			        You("%s",riseup);
+			        You("rise up, through the ceiling!");
 				goto_level(&earth_level, FALSE, FALSE, FALSE);
 			    } else {
 			        register int newlev = depth(&u.uz)-1;
@@ -582,7 +585,7 @@ peffects(otmp)
 				if(on_level(&newlevel, &u.uz)) {
 				    pline("It tasted bad.");
 				    break;
-				} else You("%s",riseup);
+				} else You("rise up, through the ceiling!");
 				goto_level(&newlevel, FALSE, FALSE, FALSE);
 			    }
 			}
