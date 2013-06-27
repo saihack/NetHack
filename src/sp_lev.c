@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)sp_lev.c	3.1	93/06/29	*/
+/*	this file has been modified by saihack, 21.06.2013	*/
 /*	Copyright (c) 1989 by Jean-Christophe Collet */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -42,11 +42,8 @@ static void FDECL(create_corridor, (corridor *));
 static boolean FDECL(create_subroom, (struct mkroom *, XCHAR_P, XCHAR_P,
 					XCHAR_P, XCHAR_P, XCHAR_P, XCHAR_P));
 
-#if (defined(MICRO) && !defined(AMIGA)) || defined(THINK_C)
-# define RDMODE "rb"
-#else
+
 # define RDMODE "r"
-#endif
 
 #define LEFT	1
 #define H_LEFT	2
@@ -104,7 +101,7 @@ set_wall_property(x1,y1,x2,y2, prop)
 xchar x1, y1, x2, y2;
 int prop;
 {
-	register xchar x, y;
+	xchar x, y;
 
 	for(y = y1; y <= y2; y++)
 	    for(x = x1; x <= x2; x++)
@@ -176,7 +173,7 @@ int humidity;
 		if (is_ok_location(*x,*y,humidity)) break;
 	    } while (++cpt < 100);
 	    if (cpt >= 100) {
-		register int xx, yy;
+		int xx, yy;
 		/* last try */
 		for (xx = 0; xx < xsize; xx++)
 		    for (yy = 0; yy < ysize; yy++) {
@@ -197,11 +194,11 @@ found_it:;
 
 static boolean
 is_ok_location(x, y, humidity)
-register schar x, y;
-register int humidity;
+schar x, y;
+int humidity;
 {
-	register int typ;
-	register boolean okplace = FALSE;
+	int typ;
+	boolean okplace = FALSE;
 
 	if (humidity & DRY) {
 	    typ = levl[x][y].typ;
@@ -224,8 +221,8 @@ sp_lev_shuffle(list1, list2, n)
 char list1[], list2[];
 int n;
 {
-	register int i, j;
-	register char k;
+	int i, j;
+	char k;
 
 	for (i = n - 1; i > 0; i--) {
 		if ((j = rn2(i + 1)) == i) continue;
@@ -279,7 +276,7 @@ schar		*x, *y;
 struct mkroom	*croom;
 {
 	schar try_x, try_y;
-	register int trycnt = 0;
+	int trycnt = 0;
 
 	do {
 	    try_x = *x,  try_y = *y;
@@ -296,8 +293,8 @@ check_room(lowx, ddx, lowy, ddy, vault)
 xchar *lowx, *ddx, *lowy, *ddy;
 boolean vault;
 {
-	register int x,y,hix = *lowx + *ddx, hiy = *lowy + *ddy;
-	register struct rm *lev;
+	int x,y,hix = *lowx + *ddx, hiy = *lowy + *ddy;
+	struct rm *lev;
 	int xlim, ylim, ymax;
 
 	xlim = XLIM + (vault ? 1 : 0);
@@ -601,7 +598,7 @@ struct mkroom *broom;
 	}
 
 	do {
-		register int dwall, dpos;
+		int dwall, dpos;
 
 		dwall = dd->wall;
 		if (dwall == -1)	/* The wall is RANDOM */
@@ -1115,9 +1112,9 @@ coord org, dest;
 boolean nxcor;
 schar ftyp, btyp;
 {
-	register int dx=0, dy=0, dix, diy, cct;
-	register struct rm *crm;
-	register int tx, ty, xx, yy;
+	int dx=0, dy=0, dix, diy, cct;
+	struct rm *crm;
+	int tx, ty, xx, yy;
 
 	xx = org.x;  yy = org.y;
 	tx = dest.x; ty = dest.y;
@@ -1170,7 +1167,7 @@ schar ftyp, btyp;
 
 	    /* do we have to change direction ? */
 	    if(dy && dix > diy) {
-		register int ddx = (xx > tx) ? -1 : 1;
+		int ddx = (xx > tx) ? -1 : 1;
 
 		crm = &levl[xx+ddx][yy];
 		if(crm->typ == btyp || crm->typ == ftyp || crm->typ == SCORR) {
@@ -1179,7 +1176,7 @@ schar ftyp, btyp;
 		    continue;
 		}
 	    } else if(dx && diy > dix) {
-		register int ddy = (yy > ty) ? -1 : 1;
+		int ddy = (yy > ty) ? -1 : 1;
 
 		crm = &levl[xx][yy+ddy];
 		if(crm->typ == btyp || crm->typ == ftyp || crm->typ == SCORR) {
@@ -1220,8 +1217,8 @@ schar ftyp, btyp;
 static void
 fix_stair_rooms()
 {
-    register i;
-    register struct mkroom 	*croom;
+    int i;
+    struct mkroom 	*croom;
 
     if(xdnstair &&
        !((dnstairs_room->lx <= xdnstair && xdnstair <= dnstairs_room->hx) &&
@@ -1533,10 +1530,10 @@ static void
 light_region(tmpregion)
     region  *tmpregion;
 {
-    register boolean litstate = tmpregion->rlit ? 1 : 0;
-    register int hiy = tmpregion->y2;
-    register int x, y;
-    register struct rm *lev;
+    boolean litstate = tmpregion->rlit ? 1 : 0;
+    int hiy = tmpregion->y2;
+    int x, y;
+    struct rm *lev;
     int lowy = tmpregion->y1;
     int lowx = tmpregion->x1, hix = tmpregion->x2;
 
@@ -1923,7 +1920,7 @@ FILE *fd;
 
     /* Initialize map */
     Fread((genericptr_t) &filling, 1, sizeof(filling), fd);
-    if(!init_lev.init_present) /* don't init if mkmap() has been called */
+    if(!init_lev.init_present) { /* don't init if mkmap() has been called */
       for(x = 2; x <= x_maze_max; x++)
 	for(y = 0; y <= y_maze_max; y++)
 	    if (filling == -1) {
@@ -1938,6 +1935,7 @@ FILE *fd;
 		    levl[x][y].typ = filling;
 		    Map[x][y] = 0;
 	    }
+    }
 
     /* Start reading the file */
     Fread((genericptr_t) &numpart, 1, sizeof(numpart), fd);
@@ -2098,7 +2096,7 @@ FILE *fd;
 	(void) memset((genericptr_t)mustfill, 0, sizeof(mustfill));
 
 	while(n--) {
-		register struct mkroom *troom;
+		struct mkroom *troom;
 
 		Fread((genericptr_t)&tmpregion, 1, sizeof(tmpregion), fd);
 
@@ -2415,11 +2413,12 @@ FILE *fd;
 		levl[x][y].flags = 0;
 	    }
 
-	    if (!(y % 2))
-		if (dir == W_SOUTH)
+	    if (!(y % 2)) {
+		if (dir == W_SOUTH) 
 		    y++;
-		else
+		else 
 		    y--;
+	    }
 
 	    walkfrom(x, y);
     }

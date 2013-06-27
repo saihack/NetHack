@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)worn.c	3.1	93/06/24	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -258,26 +258,28 @@ struct monst *mon;
 		rel_1_obj(mon, otmp);
 	    }
 	    if ((otmp = which_armor(mon, W_ARMC)) != 0) {
-		if (vis)
+		if (vis){
 		    if (is_whirly(mon->data))
 			pline("%s cloak falls, unsupported!", 
 			             s_suffix(Monnam(mon)));
 		    else
 			pline("%s shrinks out of %s cloak!", Monnam(mon),
 								ppronoun);
+		}
 		mon->misc_worn_check &= ~W_ARMC;
 		otmp->owornmask &= ~W_ARMC;
 		rel_1_obj(mon, otmp);
 	    }
 # ifdef TOURIST
 	    if ((otmp = which_armor(mon, W_ARMU)) != 0) {
-		if (vis)
-		    if (sliparm(mon->data))
+		if (vis){
+		    if (sliparm(mon->data)) 
 			pline("%s seeps right through %s shirt!",
 					Monnam(mon), ppronoun);
 		    else
 			pline("%s becomes much too small for %s shirt!",
 					Monnam(mon), ppronoun);
+		}
 		mon->misc_worn_check &= ~W_ARMU;
 		otmp->owornmask &= ~W_ARMU;
 		rel_1_obj(mon, otmp);

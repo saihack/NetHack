@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)lock.c	3.1	93/06/12	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -788,7 +788,7 @@ int x, y;
 	default: impossible("magic (%d) attempted on door.", otmp->otyp);
 	    break;
 	}
-	if (msg && cansee(x,y)) pline(msg);
+	if (msg && cansee(x,y)) pline("%s",msg);
 	return res;
 }
 

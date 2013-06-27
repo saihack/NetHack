@@ -1,10 +1,13 @@
-/*	SCCS Id: @(#)unixmain.c	3.1	92/12/04	*/
+/*	this file has been modified by saihack, 24.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
 /* main.c - Unix NetHack */
 
 #include "hack.h"
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include <signal.h>
 #include <pwd.h>
@@ -258,7 +261,7 @@ not_recovered:
 	} else if(flags.moonphase == NEW_MOON) {
 		pline("Be careful!  New moon tonight.");
 	}
-	if(flags.friday13 = friday_13th()) {
+	if((flags.friday13 = friday_13th())) {
 		pline("Watch out!  Bad things can happen on Friday the 13th.");
 		change_luck(-1);
 	}

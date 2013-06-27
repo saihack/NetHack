@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)wintty.c	3.1	93/05/26	*/
+/*	this file has been modified by saihack, 21.06.2013	*/
 /* Copyright (c) David Cohrs, 1991				  */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -9,15 +9,10 @@
  */
 
 #include "hack.h"
+#include <unistd.h>
 
 #ifdef TTY_GRAPHICS
 
-#ifdef MAC
-# define MICRO /* The Mac is a MICRO only for this file, not in general! */
-# ifdef THINK_C
-   extern void msmsg(const char *,...);
-# endif
-#endif
 
 #ifndef NO_TERMS
 # include "termcap.h"

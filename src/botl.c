@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)botl.c	3.1	93/01/17	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -330,9 +330,9 @@ bot1()
 			mbot[k] += 'A' - 'a';
 		    k++;
 		}
-		Sprintf(nb = eos(nb), mbot);
+		Sprintf(nb = eos(nb),"%s", mbot);
 	} else
-		Sprintf(nb = eos(nb), rank());
+		Sprintf(nb = eos(nb),"%s", rank());
 #else
 	Sprintf(nb = eos(nb), rank());
 #endif

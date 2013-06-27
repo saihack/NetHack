@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)ball.c	3.1	93/05/15	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -27,12 +27,13 @@ ballfall()
 		int dmg = rn1(7,25);
 		pline("The iron ball falls on your %s.",
 			body_part(HEAD));
-		if (uarmh)
+		if (uarmh) {
 		    if(is_metallic(uarmh)) {
 			pline("Fortunately, you are wearing a hard helmet.");
 			dmg = 3;
 		    } else if (flags.verbose)
 			Your("%s does not protect you.", xname(uarmh));
+		}
 		losehp(dmg, "Crunched in the head by an iron ball",
 			NO_KILLER_PREFIX);
 	}

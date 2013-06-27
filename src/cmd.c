@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)cmd.c	3.1	93/06/18	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -1055,7 +1055,7 @@ parse()
 		    if (multi > 9) {
 			clear_nhwindow(WIN_MESSAGE);
 			Sprintf(in_line, "Count: %d", multi);
-			pline(in_line);
+			pline("%s",in_line);
 			mark_synch();
 		    }
 		    last_multi = multi;

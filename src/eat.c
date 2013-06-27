@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)eat.c	3.1	93/05/19	*/
+/*	this file has been modified by saihack, 21.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -363,7 +363,7 @@ boolean message;
 	victual.piece->in_use = TRUE;
 #endif
 	if (nomovemsg) {
-		if (message) pline(nomovemsg);
+		if (message) pline("%s",nomovemsg);
 		nomovemsg = 0;
 	} else if (message)
 		You("finish eating %s.", the(singular(victual.piece, xname)));
@@ -1665,7 +1665,7 @@ register int num;
 #endif
 	u.uhunger += num;
 	if(u.uhunger >= 2000) {
-	    if (!victual.eating || victual.canchoke)
+	    if (!victual.eating || victual.canchoke){
 		if (victual.eating) {
 			choke(victual.piece);
 			reset_eat();
@@ -1674,6 +1674,7 @@ register int num;
 			choke(tin.tin);
 		else
 			choke((struct obj *) 0);
+	    }
 		/* no reset_eat(); it was a non-food such as juice */
 	} else {
 	    /* Have lesshungry() report when you're nearly full so all eating

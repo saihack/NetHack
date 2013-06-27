@@ -1,14 +1,13 @@
-/*	SCCS Id: @(#)files.c	3.1	93/06/27	*/
+/*	this file has been modified by saihack, 24.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
 #include "hack.h"
 
 #include <ctype.h>
-
-#if !defined(MAC) && !defined(O_WRONLY) && !defined(AZTEC_C)
+#include <unistd.h>
 #include <fcntl.h>
-#endif
+
 #if defined(UNIX) || defined(VMS)
 #include <errno.h>
 # ifndef SKIP_ERRNO
@@ -28,32 +27,15 @@ extern int errno;
 # define O_BINARY 0
 #endif
 
-#ifdef MFLOPPY
-char bones[FILENAME];		/* pathname of bones files */
-char lock[FILENAME];		/* pathname of level files */
-#else
+
 static char bones[] = "bonesnn.xxxx";
-# ifdef VMS
-char lock[PL_NSIZ+17] = "1lock"; /* long enough for _uid+name+.99;1 */
-# else
 char lock[PL_NSIZ+14] = "1lock"; /* long enough for uid+name+.99 */
-# endif
-#endif
 
-#ifdef MAC
-#include <files.h>
-MacDirs theDirs ;
-#endif
 
-#ifdef UNIX
+
+
 #define SAVESIZE	(PL_NSIZ + 13)	/* save/99999player.e */
-#else
-# ifdef VMS
-#define SAVESIZE	(PL_NSIZ + 22)	/* [.save]<uid>player.e;1 */
-# else
-#define SAVESIZE	FILENAME	/* from macconf.h or pcconf.h */
-# endif
-#endif
+
 
 char SAVEF[SAVESIZE];	/* holds relative path of save file from playground */
 #ifdef MICRO
@@ -92,25 +74,6 @@ const char *filename, *mode;
 
 /* ----------  BEGIN LEVEL FILE HANDLING ----------- */
 
-#ifdef MFLOPPY
-/* Set names for bones[] and lock[] */
-void
-set_lock_and_bones()
-{
-	if (!ramdisk) {
-		Strcpy(levels, permbones);
-		Strcpy(bones, permbones);
-	}
-	append_slash(permbones);
-	append_slash(levels);
-	append_slash(bones);
-	Strcat(bones, "bonesnn.*");
-	Strcpy(lock, levels);
-	Strcat(lock, alllevels);
-	return;
-}
-#endif /* MFLOPPY */
-
 
 /* Construct a file name for a level-type file, which is of the form
  * something.level (with any old level stripped off).
@@ -128,9 +91,7 @@ int lev;
 	tf = rindex(file, '.');
 	if (!tf) tf = eos(file);
 	Sprintf(tf, ".%d", lev);
-#ifdef VMS
-	Strcat(tf, ";1");
-#endif
+
 	return;
 }
 
@@ -148,11 +109,7 @@ int lev;
 	 */
 	fd = open(lock, O_WRONLY |O_CREAT | O_TRUNC | O_BINARY, FCMASK);
 #else
-# ifdef MAC
-	fd = maccreat(lock, LEVL_TYPE);
-# else
 	fd = creat(lock, FCMASK);
-# endif
 #endif /* MICRO */
 
 	return fd;
@@ -166,16 +123,8 @@ int lev;
 	int fd;
 
 	set_levelfile_name(lock, lev);
-#ifdef MFLOPPY
-	/* If not currently accessible, swap it in. */
-	if (fileinfo[lev].where != ACTIVE)
-		swapin_file(lev);
-#endif
-#ifdef MAC
-	fd = macopen(lock, O_RDONLY | O_BINARY, LEVL_TYPE);
-#else
+
 	fd = open(lock, O_RDONLY | O_BINARY, 0);
-#endif
 	return fd;
 }
 
@@ -234,9 +183,7 @@ d_level *lev;
 	    Sprintf(dptr, ".%c", sptr->boneid);
 	else
 	    Sprintf(dptr, ".%d", lev->dlevel);
-#ifdef VMS
-	Strcat(dptr, ";1");
-#endif
+
 	return(dptr-2);
 }
 
@@ -255,11 +202,8 @@ char **bonesid;
 	 */
 	fd = open(bones, O_WRONLY |O_CREAT | O_TRUNC | O_BINARY, FCMASK);
 #else
-# ifdef MAC
-	fd = maccreat(bones, BONE_TYPE);
-# else
 	fd = creat(bones, FCMASK);
-# endif
+
 # if defined(VMS) && !defined(SECURE)
 	/*
 	   Re-protect bones file with world:read+write+execute+delete access.
@@ -286,11 +230,8 @@ char **bonesid;
 
 	*bonesid = set_bonesfile_name(bones, lev);
 	uncompress(bones);	/* no effect if nonexistent */
-#ifdef MAC
-	fd = macopen(bones, O_RDONLY | O_BINARY, BONE_TYPE);
-#else
+
 	fd = open(bones, O_RDONLY | O_BINARY, 0);
-#endif
 	return fd;
 }
 
@@ -322,11 +263,6 @@ compress_bonesfile()
 void
 set_savefile_name()
 {
-#ifdef VMS
-	Sprintf(SAVEF, "[.save]%d%s", getuid(), plname);
-	regularize(SAVEF+7);
-	Strcat(SAVEF, ";1");
-#else
 # ifdef MICRO
 	Strcpy(SAVEF, SAVEP);
 	{
@@ -344,7 +280,6 @@ set_savefile_name()
 	Sprintf(SAVEF, "save/%d%s", (int)getuid(), plname);
 	regularize(SAVEF+5);	/* avoid . or / in name */
 # endif	/* MICRO */
-#endif	/* VMS */
 }
 
 #ifdef INSURANCE
@@ -384,9 +319,7 @@ int
 create_savefile()
 {
 	int fd;
-#ifdef AMIGA
-	fd = ami_wbench_getsave(O_WRONLY | O_CREAT | O_TRUNC);
-#else
+
 # ifdef MICRO
 	fd = open(SAVEF, O_WRONLY | O_BINARY | O_CREAT | O_TRUNC, FCMASK);
 # else
@@ -407,7 +340,7 @@ create_savefile()
 	(void) chown(SAVEF, getuid(), getgid());
 #  endif /* VMS && !SECURE */
 # endif	/* MICRO */
-#endif	/* AMIGA */
+
 
 	return fd;
 }
@@ -419,15 +352,7 @@ open_savefile()
 {
 	int fd;
 
-#ifdef AMIGA
-	fd = ami_wbench_getsave(O_RDONLY);
-#else
-# ifdef MAC
-	fd = macopen(SAVEF, O_RDONLY | O_BINARY, SAVE_TYPE);
-# else
 	fd = open(SAVEF, O_RDONLY | O_BINARY, 0);
-# endif
-#endif /* AMIGA */
 	return fd;
 }
 
@@ -436,9 +361,6 @@ open_savefile()
 int
 delete_savefile()
 {
-#ifdef AMIGA
-	ami_wbench_unlink(SAVEF);
-#endif
 	(void) unlink(SAVEF);
 	return 0;	/* for xxxmain.c test */
 }
@@ -581,15 +503,8 @@ const char *filename;
 # else
 	Strcpy(lockname, filename);
 # endif
-# ifdef VMS
-      {
-	char *semi_colon = rindex(lockname, ';');
-	if (semi_colon) *semi_colon = '\0';
-      }
-	Strcat(lockname, ".lock;1");
-# else
+
 	Strcat(lockname, "_lock");
-# endif
 	return lockname;
 }
 #endif  /* UNIX || VMS */
@@ -624,14 +539,6 @@ int retryct;
 			HUP raw_printf("No write permission to lock %s!",
 				       filename);
 			return FALSE;
-# ifdef VMS			/* c__translate(vmsfiles.c) */
-		    case EPERM:
-			/* could be misleading, but usually right */
-			HUP raw_printf(
-				  "Can't lock %s due to directory protection.",
-				       filename);
-			return FALSE;
-# endif
 		    case EEXIST:
 			break;	/* retry checks below */
 		    default:
@@ -661,12 +568,6 @@ int retryct;
 }
 
 
-#ifdef VMS	/* for unlock_file, use the unlink() routine in vmsunix.c */
-# ifdef unlink
-#  undef unlink
-# endif
-# define unlink(foo) vms_unlink(foo)
-#endif
 
 /* unlock file, which must be currently locked by lock_file */
 void
@@ -995,36 +896,11 @@ const char *filename;
 	char	buf[BUFSZ];
 	FILE	*fp;
 
-#ifdef MAC
-	long nul = 0L ;
-	Str255 volName ;
-	/*
-	 * We should try to get this data from a rsrc, in the profile file
-	 * the user double-clicked...  This data should be saved with the
-	 * save file in the resource fork, AND be saveable in "stationery"
-	 */
-	GetVol ( volName , & theDirs . dataRefNum ) ;
-	GetWDInfo ( theDirs . dataRefNum , & theDirs . dataRefNum , & theDirs .
-		dataDirID , & nul ) ;
-	if ( volName [ 0 ] > 31 ) volName [ 0 ] = 31 ;
-	for ( nul = 1 ; nul <= volName [ 0 ] ; nul ++ ) {
-		if ( volName [ nul ] == ':' ) {
-			volName [ nul ] = 0 ;
-			volName [ 0 ] = nul - 1 ;
-			break ;
-		}
-	}
-	BlockMove ( volName , theDirs . dataName , 32L ) ;
-#endif /* MAC */
 
 	if (!(fp = fopen_config_file(filename))) return;
 
 #ifdef MICRO
-# ifdef MFLOPPY
-#  ifndef AMIGA
-	tmp_ramdisk[0] = 0;
-#  endif
-# endif
+
 	tmp_levels[0] = 0;
 #endif
 
@@ -1036,21 +912,7 @@ const char *filename;
 	}
 	(void) fclose(fp);
 
-#ifdef MICRO
-# ifdef MFLOPPY
-	Strcpy(permbones, tmp_levels);
-#  ifndef AMIGA
-	if (tmp_ramdisk[0]) {
-		Strcpy(levels, tmp_ramdisk);
-		if (strcmp(permbones, levels))		/* if not identical */
-			ramdisk = TRUE;
-	} else
-#  endif /* AMIGA */
-		Strcpy(levels, tmp_levels);
 
-	Strcpy(bones, levels);
-# endif /* MFLOPPY */
-#endif /* MICRO */
 	return;
 }
 
@@ -1070,14 +932,6 @@ const char *dir;
 	int fd = open(RECORD, O_RDWR, 0);
 
 	if (fd >= 0) {
-# ifdef VMS	/* must be stream-lf to use UPDATE_RECORD_IN_PLACE */
-		if (!file_is_stmlf(fd)) {
-		    raw_printf(	/* note: assume VMS dir has trailing punct */
-		  "Warning: scoreboard file %s%s is not in stream_lf format",
-				(dir ? dir : "[]"), RECORD);
-		    wait_synch();
-		}
-# endif
 	    (void) close(fd);	/* RECORD is accessible */
 	} else if ((fd = open(RECORD, O_CREAT|O_RDWR, FCMASK)) >= 0) {
 	    (void) close(fd);	/* RECORD newly created */
@@ -1118,17 +972,7 @@ const char *dir;
 		(void) close(fd);
 	} else		/* open succeeded */
 	    (void) close(fd);
-#else /* MICRO */
 
-# ifdef MAC
-	int fd = macopen ( RECORD , O_RDWR | O_CREAT , TEXT_TYPE ) ;
-
-	if ( fd < 0 ) {
-		raw_printf ( "Warning: cannot write %s" , RECORD ) ;
-	} else {
-		close ( fd ) ;
-	}
-# endif /* MAC */
 
 #endif /* MICRO */
 }

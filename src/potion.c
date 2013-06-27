@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)potion.c	3.1	93/07/07	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -178,7 +178,7 @@ long mask;	/* nonzero if resistance status should change by mask */
 		see_objects();
 	    }
 	    flags.botl = 1;
-	    if (!Blind && talk) pline(message);
+	    if (!Blind && talk) pline("%s",message);
 	}
 }
 
@@ -572,7 +572,7 @@ peffects(otmp)
 						      Can_rise_up(&u.uz)) {
 			    const char *riseup = "rise up, through the ceiling!";
 			    if(ledger_no(&u.uz) == 1) {
-			        You(riseup);
+			        You("%s",riseup);
 				goto_level(&earth_level, FALSE, FALSE, FALSE);
 			    } else {
 			        register int newlev = depth(&u.uz)-1;
@@ -582,7 +582,7 @@ peffects(otmp)
 				if(on_level(&newlevel, &u.uz)) {
 				    pline("It tasted bad.");
 				    break;
-				} else You(riseup);
+				} else You("%s",riseup);
 				goto_level(&newlevel, FALSE, FALSE, FALSE);
 			    }
 			}
@@ -696,7 +696,7 @@ register const char *txt;
 		You("have a %s feeling for a moment, then it passes.",
 		Hallucination ? "normal" : "strange");
 	else
-		pline(txt);
+		pline("%s",txt);
 
 	if(!obj)	/* e.g., crystal ball finds no traps */
 		return;
@@ -939,12 +939,13 @@ register struct obj *obj;
 		break;
 	}
 	/* note: no obfree() */
-	if (obj->dknown)
+	if (obj->dknown){
 	    if (kn)
 		makeknown(obj->otyp);
 	    else if (!objects[obj->otyp].oc_name_known &&
 						!objects[obj->otyp].oc_uname)
 		docall(obj);
+	}
 }
 
 static boolean

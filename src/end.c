@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)end.c	3.1	93/06/30	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -18,9 +18,7 @@ static void FDECL(savelife, (int));
 static void NDECL(list_vanquished);
 static void NDECL(list_genocided);
 
-#ifdef AMIGA
-void NDECL(clear_icon);
-#endif
+
 
 /*
  * The order of these needs to match the macros in hack.h.
@@ -90,14 +88,12 @@ done2()
 	    if ((c = ynq(tmp)) == 'y') {
 		(void) signal(SIGINT, (SIG_RET_TYPE) done1);
 		exit_nhwindows(NULL);
-#ifdef AMIGA
-		Abort(0);
-#else
+
 # ifdef SYSV
 		(void)
 # endif
 		    abort();
-#endif
+
 	    } else if (c == 'q') done_stopprint++;
 	}
 #endif
@@ -196,14 +192,11 @@ panic VA_DECL(const char *, str)
 	VA_INIT(str, char *);
 
 	if(panicking++)
-#ifdef AMIGA
-	    Abort(0);
-#else
+
 # ifdef SYSV
 	    (void)
 # endif
 		abort();    /* avoid loops - this should never happen*/
-#endif
 
 	if (flags.window_inited) exit_nhwindows(NULL);
 	flags.window_inited = 0; /* they're gone; force raw_print()ing */
@@ -229,14 +222,11 @@ panic VA_DECL(const char *, str)
 	}
 #if defined(WIZARD) && (defined(UNIX) || defined(VMS) || defined(LATTICE))
 	if (wizard)
-# ifdef AMIGA
-		Abort(0);
-# else
+
 #  ifdef SYSV
 		(void)
 #  endif
 		    abort();	/* generate core dump */
-# endif
 #endif
 	VA_END();
 	done(PANICKED);
@@ -471,9 +461,7 @@ die:
 	paygd();
 	clearpriests();
 	clearlocks();
-#ifdef AMIGA
-	clear_icon();
-#endif
+
 	if (have_windows) display_nhwindow(WIN_MESSAGE, FALSE);
 
 	if (strcmp(flags.end_disclose, "none") && how != PANICKED)
@@ -755,7 +743,7 @@ list_vanquished()
 	      for (i = 0; i < NUMMONS; i++)
 		if (mons[i].mlevel == lev && (nkilled = u.nr_killed[i])) {
 		    if (i == PM_WIZARD_OF_YENDOR || mons[i].geno & G_UNIQ) {
-			Sprintf(buf, type_is_pname(&mons[i]) ? mons[i].mname :
+			Sprintf(buf, "%s", type_is_pname(&mons[i]) ? mons[i].mname :
 				The(mons[i].mname));
 			if (nkilled > 1)
 			    Sprintf(eos(buf)," (%d time%s)",

@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)do.c	3.1	93/06/26	*/
+/*	this file has been modified by saihack, 24.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -6,6 +6,8 @@
 
 #include "hack.h"
 #include "lev.h"
+
+#include <unistd.h>
 
 #include <errno.h>
 #ifdef _MSC_VER	/* MSC 6.0 defines errno quite differently */
@@ -17,11 +19,9 @@
 extern int errno;
 #endif
 
-#ifdef MFLOPPY
-extern struct finfo fileinfo[];
-#else
+
 extern boolean level_exists[];
-#endif
+
 
 #ifdef SINKS
 # ifdef OVLB
@@ -626,15 +626,6 @@ currentlevel_rewrite()
 		return -1;
 	}
 
-#ifdef MFLOPPY
-	if (!savelev(fd, ledger_no(&u.uz), COUNT_SAVE)) {
-		(void) close(fd);
-		delete_levelfile(ledger_no(&u.uz));
-		pline("NetHack is out of disk space for making levels!");
-		You("can save, quit, or continue playing.");
-		return -1;
-	}
-#endif
 	return fd;
 }
 
@@ -765,12 +756,7 @@ register boolean at_stairs, falling, portal;
 	(void) memset((genericptr_t) &dndest, 0, sizeof dndest);
 
 	if (In_endgame(&u.uz) ||
-#ifdef MFLOPPY
-	    /* If the level has no .where yet, it hasn't been made */
-	    !fileinfo[ledger_no(&u.uz)].where) {
-#else
 	    !level_exists[ledger_no(&u.uz)]) {
-#endif
 		mklev();
 #ifdef REINCARNATION
 		new = 1;	/* made the level */

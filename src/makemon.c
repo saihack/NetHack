@@ -868,16 +868,18 @@ struct permonst *mdat;
 	if ((mtmp2 = m_at(x, y)) && mtmp != mtmp2) return 0;
 
 	if (mdat) {
-	    if (IS_POOL(levl[x][y].typ))
+	    if (IS_POOL(levl[x][y].typ)){
 		if (mdat == &playermon &&
 		    (HLevitation || Wwalking || Amphibious))
 			return 1;
 		else	return (is_flyer(mdat) || is_swimmer(mdat));
-	    if (levl[x][y].typ == LAVAPOOL)
+	    }
+	    if (levl[x][y].typ == LAVAPOOL){
 		if (mdat == &playermon && (HLevitation))
 			return 1;
 		else return
 			(is_flyer(mdat) || (mdat == &mons[PM_FIRE_ELEMENTAL]));
+	    }
 	    if (passes_walls(mdat) && may_passwall(x,y)) return 1;
 	}
 	if (!ACCESSIBLE(levl[x][y].typ)) return 0;

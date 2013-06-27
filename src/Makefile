@@ -64,7 +64,7 @@ SYSOBJ = ioctl.o unixmain.o unixtty.o unixunix.o
 # CFLAGS = -g -I../include
 
 #CC=clang
-CFLAGS = -g -O1 -I../include 
+CFLAGS = -g -O2 -I../include -Wno-comment
 LFLAGS =
 
 

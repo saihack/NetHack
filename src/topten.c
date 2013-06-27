@@ -4,11 +4,6 @@
 
 #include "hack.h"
 
-#ifdef VMS
- /* We don't want to rewrite the whole file, because that entails	 */
- /* creating a new version which requires that the old one be deletable. */
-# define UPDATE_RECORD_IN_PLACE
-#endif
 
 /*
  * Updating in place can leave junk at the end of the file in some
@@ -54,6 +49,9 @@ struct toptenentry {
 	char death[DTHSZ+1];
 	long date;		/* yyyymmdd */
 } *tt_head;
+
+
+extern long yyyymmdd(time_t);
 
 static void NDECL(outheader);
 static int FDECL(outentry, (int,struct toptenentry *,int));
@@ -530,13 +528,6 @@ char **argv;
 		return;
 	}
 
-#ifdef	AMIGA
-	{
-	    extern winid amii_rawprwin;
-	    init_nhwindows();
-	    amii_rawprwin = create_nhwindow( NHW_TEXT );
-	}
-#endif
 
 	/* If the score list isn't after a game, we never went through */
 	/* init_dungeons() */
@@ -561,11 +552,8 @@ char **argv;
 #else
 		player0 = plname;
 		if(!*player0)
-#ifdef AMIGA
-			player0 = "all";	/* single user system */
-#else
 			player0 = "hackplayer";
-#endif
+
 		playerct = 1;
 		players = &player0;
 #endif
@@ -611,11 +599,6 @@ char **argv;
 			     hname);
 		}
 	    }
-#ifdef	AMIGA
-	    display_nhwindow( amii_rawprwin, 1 );
-	    destroy_nhwindow( amii_rawprwin );
-	    amii_rawprwin = WIN_ERR;
-#endif
 	    return;
 	}
 
@@ -665,11 +648,6 @@ char **argv;
 		break;
 	}
 #endif /* nonsense /**/
-#ifdef	AMIGA
-	display_nhwindow( amii_rawprwin, 1 );
-	destroy_nhwindow( amii_rawprwin );
-	amii_rawprwin = WIN_ERR;
-#endif
 }
 
 static int

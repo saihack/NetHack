@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)mkmap.c	3.1	92/07/15	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) J. C. Collet, M. Stephenson and D. Cohrs, 1992   */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -203,7 +203,7 @@ flood_fill_rm(sx, sy, rmno, lit, anyroom)
     nx = i;
 
     if(isok(sx,sy-1))
-	for(i=sx; i<nx; i++)
+	for(i=sx; i<nx; i++) {
 	    if(levl[i][sy-1].typ == fg_typ) {
 		if(levl[i][sy-1].roomno != rmno)
 		    flood_fill_rm(i,sy-1,rmno,lit,anyroom);
@@ -219,8 +219,9 @@ flood_fill_rm(sx, sy, rmno, lit, anyroom)
 			flood_fill_rm(i+1,sy-1,rmno,lit,anyroom);
 		}
 	    }
+	}
     if(isok(sx,sy+1))
-	for(i=sx; i<nx; i++)
+	for(i=sx; i<nx; i++) {
 	    if(levl[i][sy+1].typ == fg_typ) {
 		if(levl[i][sy+1].roomno != rmno)
 		    flood_fill_rm(i,sy+1,rmno,lit,anyroom);
@@ -236,7 +237,7 @@ flood_fill_rm(sx, sy, rmno, lit, anyroom)
 			flood_fill_rm(i+1,sy+1,rmno,lit,anyroom);
 		}
 	    }
-
+	}
     if(nx > max_rx) max_rx = nx - 1; /* nx is just past valid region */
     if(sy > max_ry) max_ry = sy;
 }

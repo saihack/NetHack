@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)were.c	3.1	93/01/17	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -12,7 +12,7 @@ register struct monst *mon;
 {
 	register int pm = monsndx(mon->data);
 
-	if(is_were(mon->data))
+	if(is_were(mon->data)){
 	    if(is_human(mon->data)) {
 		if(Protection_from_shape_changers) return;
 		if(!rn2(50-(night()*20)) || flags.moonphase == FULL_MOON) {
@@ -22,6 +22,7 @@ register struct monst *mon;
 			    pm == PM_HUMAN_WEREJACKAL ? "jackal" : "wolf");
 		}
 	    } else if(!rn2(30) || Protection_from_shape_changers) new_were(mon);
+	}
 }
 
 #endif /* OVL0 */

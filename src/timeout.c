@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)timeout.c	3.1	93/07/07	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -27,7 +27,7 @@ stoned_dialogue() {
 	register long i = (Stoned & TIMEOUT);
 
 	if(i > 0 && i <= SIZE(stoned_texts))
-		pline(stoned_texts[SIZE(stoned_texts) - i]);
+		pline("%s",stoned_texts[SIZE(stoned_texts) - i]);
 	if(i == 5)
 		Fast &= ~(TIMEOUT|INTRINSIC);
 	if(i == 3)
@@ -50,7 +50,7 @@ vomiting_dialogue() {
 
 	if ((((Vomiting & TIMEOUT) % 3L) == 2) && (i >= 0)
 	    && (i < SIZE(vomiting_texts)))
-		pline(vomiting_texts[SIZE(vomiting_texts) - i - 1]);
+		pline("%s",vomiting_texts[SIZE(vomiting_texts) - i - 1]);
 
 	switch ((int) i) {
 	case 0:

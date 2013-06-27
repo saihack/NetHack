@@ -1,10 +1,11 @@
-/*	SCCS Id: @(#)restore.c	3.1	93/04/06	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
 #include "hack.h"
 #include "lev.h"
 #include "termcap.h" /* for TERMLIB and ASCIIGRAPH */
+#include <unistd.h>
 
 #ifdef MICRO
 extern int dotcnt;	/* shared with save */
@@ -407,42 +408,7 @@ xchar ltmp;
 	nfd = create_levelfile(ltmp);
 
 	if (nfd < 0)	panic("Cannot open temp level %d!", ltmp);
-#ifdef MFLOPPY
-	if (!savelev(nfd, ltmp, COUNT_SAVE)) {
 
-		/* The savelev can't proceed because the size required
-		 * is greater than the available disk space.
-		 */
-		pline("Not enough space on `%s' to restore your game.",
-			levels);
-
-		/* Remove levels and bones that may have been created.
-		 */
-		(void) close(nfd);
-		eraseall(levels, alllevels);
-# ifndef AMIGA
-		eraseall(levels, allbones);
-
-		/* Perhaps the person would like to play without a
-		 * RAMdisk.
-		 */
-		if (ramdisk) {
-			/* PlaywoRAMdisk may not return, but if it does
-			 * it is certain that ramdisk will be 0.
-			 */
-			playwoRAMdisk();
-			/* Rewind save file and try again */
-			(void) lseek(fd, (off_t)0, 0);
-			return dorecover(fd);	/* 0 or 1 */
-		} else {
-# endif
-			pline("Be seeing you...");
-			terminate(0);
-# ifndef AMIGA
-		}
-# endif
-	}
-#endif
 	bufon(nfd);
 	savelev(nfd, ltmp, WRITE_SAVE | FREE_SAVE);
 	bclose(nfd);
@@ -549,9 +515,6 @@ register int fd;
 	monfnd:
 		u.ustuck = mtmp;
 	}
-#ifdef MFLOPPY
-	gameDiskPrompt();
-#endif
 	max_rank_sz(); /* to recompute mrank_sz (botl.c) */
 #ifdef POLYSELF
 	set_uasmon();
@@ -603,13 +566,7 @@ boolean ghostly;
 	int hpid;
 	xchar dlvl;
 	int x, y;
-#ifdef TOS
-	short tlev;
-#endif
 
-#if defined(MSDOS) || defined(OS2)
-	setmode(fd, O_BINARY);
-#endif
 #ifdef TUTTI_FRUTTI
 	/* Load the old fruit info.  We have to do it first, so the
 	 * information is available when restoring the objects.
@@ -631,12 +588,7 @@ boolean ghostly;
 	/* First some sanity checks */
 	mread(fd, (genericptr_t) &hpid, sizeof(hpid));
 /* CHECK:  This may prevent restoration */
-#ifdef TOS
-	mread(fd, (genericptr_t) &tlev, sizeof(tlev));
-	dlvl=tlev&0x00ff;
-#else
 	mread(fd, (genericptr_t) &dlvl, sizeof(dlvl));
-#endif
 	if((pid && pid != hpid) || (lev && dlvl != lev)) {
 #ifdef WIZARD
 		if (wizard) {

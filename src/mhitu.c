@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)mhitu.c	3.1	93/03/14	*/
+/*	this file has been modified by saihack, 21.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -187,7 +187,7 @@ register struct monst *mtmp;
 register struct permonst *mdat; /* if mtmp is polymorphed, mdat != mtmp->data */
 boolean message;
 {
-	if (message) 
+	if (message) {
 		if (is_animal(mdat)) 
 			You("get regurgitated!");
 		else {
@@ -218,6 +218,7 @@ boolean message;
 				    mon_nam(mtmp), blast);
 			}
 		}
+	}
 	unstuck(mtmp);	/* ball&chain returned in unstuck() */
 	mnexto(mtmp);
 	newsym(u.ux,u.uy);
@@ -1241,10 +1242,11 @@ do_stone:
 		hitmsg(mtmp, mattk);
 		if(!night() && mdat == &mons[PM_GREMLIN]) break;
 		if(!mtmp->mcan && !rn2(10)) {
-		    if (flags.soundok)
+		    if (flags.soundok){
 			if (Blind) You("hear laughter.");
 			else       pline("%s chuckles.", Monnam(mtmp));
-#ifdef POLYSELF
+		    }
+#ifdef POLYSELF		
 		    if (u.umonnum == PM_CLAY_GOLEM) {
 			pline("Some writing vanishes from your head!");
 			rehumanize();

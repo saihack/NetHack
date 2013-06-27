@@ -1,4 +1,4 @@
-/*	/*	this file has been modified by saihack, 26.06.2013 */ 
+/*	this file has been modified by saihack, 26.06.2013 */ 
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -594,7 +594,7 @@ two_hand:		    erode_weapon(FALSE);
 			You("feel a wrenching sensation.");
 #ifdef WALKIES
 		    } else if(!next_to_u()) {
-			    You(shudder_for_moment);
+			    You("%s",shudder_for_moment);
 #endif
 		    } else if(trap->once) {
 			deltrap(trap);
@@ -751,7 +751,7 @@ two_hand:		    erode_weapon(FALSE);
                 case MAGIC_PORTAL:
 #ifdef WALKIES
 		    if(!next_to_u())
-			    You(shudder_for_moment);
+			    You("%s",shudder_for_moment);
 		    else
 #endif
 			    domagicportal(trap);
@@ -1589,7 +1589,7 @@ dotele()
 #ifdef WALKIES
 		(void) next_to_u();
 	} else {
-		You(shudder_for_moment);
+		You("%s",shudder_for_moment);
 		return(0);
 	}
 #endif
@@ -1643,7 +1643,7 @@ level_tele()
 	     * we let negative values requests fall into the "heaven" loop.
 	     */
 	    if(Is_knox(&u.uz) && newlev > 0) {
-	        You(shudder_for_moment);
+	        You("%s",shudder_for_moment);
 		return;
 	    }
 	    /* if in Quest, the player sees "Home 1", etc., on the status
@@ -1660,19 +1660,19 @@ level_tele()
 	} else { /* involuntary level tele */
 #ifdef MULDGN
 	    if(Is_knox(&u.uz)) {
-	        You(shudder_for_moment);
+	        You("%s",shudder_for_moment);
 		return;
 	    }
 #endif
 	    if(rn2(5)) newlev = rnd((int)depth(&u.uz) + 3);
 	    else {
-		You(shudder_for_moment);
+		You("%s",shudder_for_moment);
 		return; 
 	    }
 	    if(newlev == depth(&u.uz)) {
 		/* if in a single-level dungeon... */
 		if(dunlevs_in_dungeon(&u.uz) == 1) {
-		    You(shudder_for_moment);
+		    You("%s",shudder_for_moment);
 		    return; 
 		}
 		else if(dunlev(&u.uz) == 1) newlev++;
@@ -1684,7 +1684,7 @@ level_tele()
 
 #ifdef WALKIES
 	if(!next_to_u()) {
-		You(shudder_for_moment);
+		You("%s",shudder_for_moment);
 		return;
 	}
 #endif
@@ -2071,11 +2071,12 @@ drown()
 		if (Amphibious) {
 			if (flags.verbose)
 				pline("But you aren't drowning.");
-			if (!Is_waterlevel(&u.uz))
+			if (!Is_waterlevel(&u.uz)){
 				if (Hallucination) 
 					Your("keel hits the bottom.");
 				else
 					You("touch bottom.");
+			}
 		}
 		if (Punished) {
 			unplacebc();

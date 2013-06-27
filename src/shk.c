@@ -5,6 +5,7 @@
 #include "hack.h"
 #include "eshk.h"
 
+#include <unistd.h>
 /*#define DEBUG*/
 
 #define PAY_SOME    2
@@ -981,7 +982,7 @@ proceed:
 		    else Strcat(sbuf,
 			   "for gold picked up and the use of merchandise.");
 		} else Strcat(sbuf, "for the use of merchandise.");
-		pline(sbuf);
+		pline("%s",sbuf);
 		if (u.ugold + eshkp->credit < dtmp) {
 		    pline("But you don't%s have enough gold%s.",
 			stashed_gold ? " seem to" : "",
@@ -1377,7 +1378,7 @@ register struct monst *shkp;	/* if angry, impose a surcharge */
 	if (!tmp) tmp = 5L;
 	/* shopkeeper may notice if the player isn't very knowledgeable -
 	   especially when gem prices are concerned */
-	if (!objects[obj->otyp].oc_name_known)
+	if (!objects[obj->otyp].oc_name_known){
 		if (obj->oclass == GEM_CLASS) {
 			/* all gems are priced high - real or not */
 			if (objects[obj->otyp].oc_material == GLASS) {
@@ -1388,6 +1389,7 @@ register struct monst *shkp;	/* if angry, impose a surcharge */
 			}
 		} else if (!(obj->o_id % 4)) /* arbitrarily impose surcharge */
 			tmp += tmp / 3L;
+	}
 #ifdef TOURIST
 	if((pl_character[0] == 'T' && u.ulevel < (MAXULEV/2))
 	    || (uarmu && !uarm && !uarmc))	/* Hawaiian shirt visible */
@@ -2156,7 +2158,7 @@ move_on:
 		     *	and prompt separately.
 		     */
 		    if (qlen > COLNO - 24 && qlen <= COLNO - 8)
-			pline(qbuf),  qbuf[0] = '\0';
+			pline("%s",qbuf),  qbuf[0] = '\0';
 		    else  Strcat(qbuf, "  ");
 		    Strcat(strcat(qbuf, "Sell "),
 			    (obj->quan == 1L ? "it?" : "them?"));

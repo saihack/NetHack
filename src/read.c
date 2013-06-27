@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)read.c	3.1	93/05/26	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -112,14 +112,14 @@ static void
 stripspe(obj)
 register struct obj *obj;
 {
-	if (obj->blessed) pline(nothing_happens);
+	if (obj->blessed) pline("%s",nothing_happens);
 	else {
 		if (obj->spe > 0) {
 		    obj->spe = 0;
 		    if (obj->otyp == OIL_LAMP || obj->otyp == BRASS_LANTERN)
 			obj->age = 0;
 		    Your("%s vibrates briefly.",xname(obj));
-		} else pline(nothing_happens);
+		} else pline("%s",nothing_happens);
 	}
 }
 
@@ -176,7 +176,7 @@ int curse_bless;
 		    if (obj->spe < 3) {
 			obj->spe++;
 			p_glow2(obj,blue);
-		    } else pline(nothing_happens);
+		    } else pline("%s",nothing_happens);
 		}
 		obj->recharged = 1; /* another recharging disallowed */
 	    } else {
@@ -231,7 +231,7 @@ int curse_bless;
 		    if (obj->spe < 3)
 			Your("marker seems permanently dried out.");
 		    else
-			pline(nothing_happens);
+			pline("%s",nothing_happens);
 		} else if (is_blessed) {
 		    n = obj->spe;
 		    if (n < 50) obj->spe = 50;
@@ -276,7 +276,7 @@ int curse_bless;
 		    if (obj->spe < 5) {
 			obj->spe++;
 			p_glow1(obj);
-		    } else pline(nothing_happens);
+		    } else pline("%s",nothing_happens);
 		}
 		break;
 	    case HORN_OF_PLENTY:
@@ -911,7 +911,9 @@ do_it:
 	    if(rnum >= 0) {
 		for(rx = rooms[rnum].lx-1; rx <= rooms[rnum].hx+1; rx++)
 		    for(ry = rooms[rnum].ly-1; ry <= rooms[rnum].hy+1; ry++)
-			set_lit(rx, ry, (genericptr_t)((on)? 1 : -1));
+		        /* because of the formal paramters of set_lit, we cast 
+		        a logic value to a long long to a pointer... */
+			set_lit(rx, ry, (genericptr_t)(long long)((on)? 1 : -1));
 		rooms[rnum].rlit = on;
 	    }
 	    /* hallways remain dark on the rogue level */
@@ -919,7 +921,7 @@ do_it:
 #endif
 	    do_clear_area(u.ux,u.uy,
 		(obj && obj->oclass==SCROLL_CLASS && obj->blessed) ? 9 : 5,
-		set_lit, (genericptr_t)((on)? 1 : -1));
+		set_lit, (genericptr_t)(long long)((on)? 1 : -1));
 
 	/*
 	 *  If we are not blind, then force a redraw on all positions in sight
@@ -946,7 +948,7 @@ do_class_genocide()
 
 	for(j=0; ; j++) {
 		if (j >= 5) {
-			pline(thats_enough_tries);
+			pline("%s",thats_enough_tries);
 			return;
 		}
 		do {
@@ -1038,7 +1040,7 @@ int how;
 	} else {
 	    for(j = 0; ; j++) {
 		if(j >= 5) {
-		    pline(thats_enough_tries);
+		    pline("%s",thats_enough_tries);
 		    return;
 		}
 		getlin("What monster do you want to genocide? [type the name]",
@@ -1191,7 +1193,7 @@ create_particular()
 	    if (which < 0) pline("I've never heard of such monsters.");
 	    else break;
 	} while (++tries < 5);
-	if (tries == 5) pline(thats_enough_tries);
+	if (tries == 5) pline("%s",thats_enough_tries);
 	else {
 	    (void) cant_create(&which);
 	    return((boolean)(makemon(&mons[which], u.ux, u.uy) != 0));

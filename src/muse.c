@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)muse.c	3.1	93/05/25	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Monster item usage routine.  Copyright (C) 1990 by Ken Arromdee */
 /* NetHack may be freely redistributed.  See license for details.  */
 
@@ -68,7 +68,7 @@ struct obj *obj;
 		m_useup(mon, obj);
 		mtmp = makemon(&mons[PM_GHOST], cc.x, cc.y);
 		if (!mtmp) {
-		    if (vis) pline(empty);
+		    if (vis) pline("%s",empty);
 		} else {
 		    if (vis) {
 			pline("As %s opens the bottle, an enormous %s emerges!",
@@ -88,7 +88,7 @@ struct obj *obj;
 		m_useup(mon, obj);
 		mtmp = makemon(&mons[PM_DJINNI], cc.x, cc.y);
 		if (!mtmp) {
-		    if (vis) pline(empty);
+		    if (vis) pline("%s",empty);
 		} else {
 		    if (vis)
 			pline("In a cloud of smoke, %s emerges!",

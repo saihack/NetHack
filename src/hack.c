@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)hack.c	3.1	93/06/15	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -317,7 +317,7 @@ still_chewing(x,y)
 
     unblock_point(x, y);	/* vision */
     newsym(x, y);
-    if (digtxt) You(digtxt);	/* after newsym */
+    if (digtxt) You("%s",digtxt);	/* after newsym */
     if (dmgtxt)
 	pay_for_damage(dmgtxt);
     dig_level.dnum = 0;
@@ -1629,7 +1629,7 @@ const char *str;
 {
     if(near_capacity() >= EXT_ENCUMBER) {
 	if(str)
-	    pline(str);
+	    pline("%s",str);
 	else
 	    You("can't do that while carrying so much stuff.");
 	return 1;

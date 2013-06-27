@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)engrave.c	3.1	92/06/16	*/
+/*	this file has been modified by saihack, 21.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -620,11 +620,12 @@ doengrave()
 		break;
 
 	    case WEAPON_CLASS:
-		if(is_blade(otmp))
+		if(is_blade(otmp)){
 		    if ((int)otmp->spe > -3)
 			type = ENGRAVE;
 		    else
 			Your("%s too dull for engraving.", aobjnam(otmp,"are"));
+		}
 		break;
 
 	    case TOOL_CLASS:
@@ -746,7 +747,7 @@ doengrave()
 		}
 	    }
 
-	    if (c == 'n' || Blind)
+	    if (c == 'n' || Blind){
 
 		if( (oep->engr_type == DUST) || (oep->engr_type == BLOOD) ||
 		    (oep->engr_type == MARK) ) {
@@ -760,7 +761,7 @@ doengrave()
 		    } else
 		   /* Don't delete engr until after we *know* we're engraving */
 			eow = TRUE;
-		} else
+		} else {
 		    if ( (type == DUST) || (type == MARK) || (type == BLOOD) ) {
 			You(
 			 "cannot wipe out the message that is %s the %s here.",
@@ -774,6 +775,8 @@ doengrave()
 				You("will overwrite the current message.");
 			    eow = TRUE;
 			}
+		}
+	    }
 	}
 
 	eloc = surface(u.ux,u.uy);
@@ -933,7 +936,7 @@ doengrave()
 
 	make_engr_at(u.ux, u.uy, buf, (moves - multi), type);
 
-	if (post_engr_text[0]) pline(post_engr_text);
+	if (post_engr_text[0]) pline("%s",post_engr_text);
 
 	if (doblind) {
 	    You("are blinded by the flash!");

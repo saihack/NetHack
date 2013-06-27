@@ -1,14 +1,11 @@
-/*	SCCS Id: @(#)bones.c	3.1	93/06/05	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985,1993. */
 /* NetHack may be freely redistributed.  See license for details. */
 
 #include "hack.h"
 #include "lev.h"
 
-#ifdef MFLOPPY
-extern char bones[];	/* from files.c */
-extern long bytes_counted;
-#endif
+#include <unistd.h>
 
 static boolean FDECL(no_bones_level, (d_level *));
 #ifdef TUTTI_FRUTTI
@@ -298,28 +295,6 @@ savebones()
 	}
 
 	bufon(fd);
-#ifdef MFLOPPY  /* check whether there is room */
-	savelev(fd, ledger_no(&u.uz), COUNT_SAVE);
-# ifdef TUTTI_FRUTTI
-	/* this is in the opposite order from the real save, but savelev()
-	 * initializes bytes_counted to 0, so doing savefruitchn() first is
-	 * useless; the extra bflush() at the end of savelev() may increase
-	 * bytes_counted by a couple over what the real usage will be
-	 */
-	savefruitchn(fd, COUNT_SAVE);
-	bflush(fd);
-# endif
-	if (bytes_counted > freediskspace(bones)) {	/* not enough room */
-# ifdef WIZARD
-		if (wizard)
-			pline("Insufficient space to create bones file.");
-# endif
-		(void) close(fd);
-		delete_bonesfile(&u.uz);
-		return;
-	}
-	co_false();	/* make sure bonesid and savefruitchn get written */
-#endif /* MFLOPPY */
 
 	c = (char) (strlen(bonesid) + 1);
 	bwrite(fd, (genericptr_t) &c, sizeof c);

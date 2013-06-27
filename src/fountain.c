@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)fountain.c	3.1	93/05/18	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /*	Copyright Scott R. Turner, srt@ucla, 10/27/86 */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -84,11 +84,12 @@ int drinking;
 	int madepool = 0;
 
 	do_clear_area(u.ux, u.uy, 7, gush, (genericptr_t)&madepool);
-	if (!madepool)
+	if (!madepool){
 	    if (drinking)
 		Your("thirst is quenched.");
 	    else
 		pline("Water sprays all over you.");
+	}
 }
 
 STATIC_PTR void

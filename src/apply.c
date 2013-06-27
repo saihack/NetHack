@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)apply.c	3.1	93/06/24	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -39,10 +39,6 @@ static boolean NDECL(rm_waslit);
 static void FDECL(mkcavepos, (XCHAR_P,XCHAR_P,int,BOOLEAN_P,BOOLEAN_P));
 static void FDECL(mkcavearea, (BOOLEAN_P));
 static void FDECL(digactualhole, (int));
-
-#ifdef	AMIGA
-void FDECL( amii_speaker, ( struct obj *, char *, int ) );
-#endif
 
 #ifdef TOURIST
 static int
@@ -766,7 +762,7 @@ dig()
 		    feel_location(dpx, dpy);
 		else
 		    newsym(dpx, dpy);
-		if(digtxt) pline(digtxt);	/* after newsym */
+		if(digtxt) pline("%s",digtxt);	/* after newsym */
 		if(dmgtxt)
 		    pay_for_damage(dmgtxt);
 
@@ -1101,10 +1097,10 @@ struct obj *obj;
 	register int rx, ry, res = 0;
 	register boolean isclosedoor;
 
-	if(obj != uwep)
+	if(obj != uwep){
 	    if (!wield_tool(obj)) return(0);
 	    else res = 1;
-
+	}
 	while(*sdp) {
 		(void) movecmd(*sdp);	/* sets u.dx and u.dy and u.dz */
 		rx = u.ux + u.dx;
@@ -1360,20 +1356,14 @@ register struct obj *obj;
 	You("ring %s.", the(xname(obj)));
 
 	if(Underwater) {
-#ifdef	AMIGA
-	    amii_speaker( obj, "AhDhGqEqDhEhAqDqFhGw", AMII_MUFFLED_VOLUME );
-#endif
 	    pline("But the sound is muffled.");
 	    return;
 	}
 	if(obj->otyp == BELL) {
 	    if(u.uswallow) {
-		pline(nothing_happens);
+		pline("%s",nothing_happens);
 		return;
 	    }
-#ifdef	AMIGA
-	    amii_speaker( obj, "ahdhgqeqdhehaqdqfhgw", AMII_MUFFLED_VOLUME );
-#endif
 	    if(obj->cursed && !rn2(3)) {
 		register struct monst *mtmp;
 
@@ -1386,7 +1376,7 @@ register struct obj *obj;
 
 	/* bell of opening */
 	if(u.uswallow && !obj->blessed) {
-	    pline(nothing_happens);
+	    pline("%s",nothing_happens);
 	    return;
 	}
 	if(obj->cursed) {
@@ -1402,9 +1392,7 @@ cursed_bell:
 	if(invocation_pos(u.ux, u.uy) &&
 		     !On_stairs(u.ux, u.uy) && !u.uswallow) {
 	    pline("%s issues an unsettling shrill sound...", The(xname(obj)));
-#ifdef	AMIGA
-	    amii_speaker( obj, "aefeaefeaefeaefeaefe", AMII_LOUDER_VOLUME );
-#endif
+
 	    obj->age = moves;
 	    if(obj->spe > 0) obj->spe--;
 	    wake_nearby();
@@ -1415,29 +1403,24 @@ cursed_bell:
 	    if(obj->spe > 0) {
 		register int cnt = openit();
 		if(cnt == -1) return; /* was swallowed */
-#ifdef	AMIGA
-		amii_speaker( obj, "ahahahDhEhCw", AMII_SOFT_VOLUME );
-#endif
+
 		switch(cnt) {
-		  case 0:  pline(nothing_happens); break;
+		  case 0:  pline("%s",nothing_happens); break;
 		  case 1:  pline("Something opens..."); break;
 		  default: pline("Things open around you..."); break;
 		}
 		if(cnt > 0) obj->known = 1;
 		obj->spe--;
-	    } else pline(nothing_happens);
+	    } else pline("%s",nothing_happens);
 	} else {  /* uncursed */
-#ifdef	AMIGA
-	    amii_speaker( obj, "AeFeaeFeAefegw", AMII_OKAY_VOLUME );
-#endif
 	    if(obj->spe > 0) {
 		register int cnt = findit();
-		if(cnt == 0) pline(nothing_happens);
+		if(cnt == 0) pline("%s",nothing_happens);
 		else obj->known = 1;
 		obj->spe--;
 	    } else {
 		if(!rn2(3)) goto cursed_bell;
-		else pline(nothing_happens);
+		else pline("%s",nothing_happens);
 	    }
 	}
 }
@@ -1708,12 +1691,12 @@ dorub()
 		uwep->age = rn1(500,1000);
 	    } else if (rn2(2) && !Blind)
 		You("see a puff of smoke.");
-	    else pline(nothing_happens);
+	    else pline("%s",nothing_happens);
 	} else if (obj->otyp == BRASS_LANTERN) {
 	    /* message from Adventure */
 	    pline("Rubbing the electric lamp is not particularly rewarding.");
 	    pline("Anyway, nothing exciting happens.");
-	} else pline(nothing_happens);
+	} else pline("%s",nothing_happens);
 	return 1;
 }
 
@@ -1956,7 +1939,7 @@ struct obj *obj;
 			}
 		}
 	}
-	if (!did_something) pline(nothing_happens);
+	if (!did_something) pline("%s",nothing_happens);
 }
 
 static void
@@ -2079,7 +2062,7 @@ doapply()
 			    (void) makemon((struct permonst *) 0, u.ux, u.uy);
 			makeknown(BAG_OF_TRICKS);
 		} else
-			pline(nothing_happens);
+			pline("%s",nothing_happens);
 		break;
 	case CAN_OF_GREASE:
 		use_grease(obj);
@@ -2207,7 +2190,7 @@ doapply()
 					       (const char *)0);
 		    makeknown(HORN_OF_PLENTY);
 		} else
-		    pline(nothing_happens);
+		    pline("%s",nothing_happens);
 		break;
 	default:
 		pline("Sorry, I don't know how to use that.");

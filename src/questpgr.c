@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)questpgr.c	3.1	93/01/20	*/
+/*	this file has been modified by saihack, 24.06.2013	*/
 /*	Copyright 1991, M. Stephenson		  */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -441,7 +441,7 @@ struct qtmsg *qt_msg;
 	for (size = 0; size < qt_msg->size; size += (long)strlen(in_line)) {
 	    (void) fgets(in_line, 80, msg_file);
 	    convert_line();
-	    pline(out_line);
+	    pline("%s",out_line);
 	}
 
 }

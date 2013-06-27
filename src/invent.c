@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)invent.c	3.1	93/05/17	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -1561,7 +1561,7 @@ dolook()
 			dfeature);
 
 	if(!otmp0 || (is_pool(u.ux,u.uy) && !Underwater)) {
-	    	if(dfeature) pline(fbuf);
+	    	if(dfeature) pline("%s",fbuf);
 		if(Blind || !dfeature)
 			You("%s no objects here.", verb);
 		return(!!Blind);
@@ -1570,7 +1570,7 @@ dolook()
 
 	if (!otmp0->nexthere) {
 	    /* only one object */
-	    if (dfeature) pline(fbuf);
+	    if (dfeature) pline("%s",fbuf);
 	    You("%s here %s.", verb, doname(otmp0));
 	} else {
 	    display_nhwindow(WIN_MESSAGE, FALSE);
@@ -1904,11 +1904,11 @@ doorganize()	/* inventory organizer by Del Lamb */
 	/* blank out all the letters currently in use in the inventory */
 	/* except those that will be merged with the selected object   */
 	for (otmp = invent; otmp; otmp = otmp->nobj)
-		if (otmp != obj && !mergable(otmp,obj))
+		if (otmp != obj && !mergable(otmp,obj)){
 			if (otmp->invlet <= 'Z')
 				alphabet[(otmp->invlet) - 'A' + 26] = ' ';
 			else	alphabet[(otmp->invlet) - 'a']	    = ' ';
-
+		}
 	/* compact the list by removing all the blanks */
 	for (ix = cur = 0; ix <= 52; ix++)
 		if (alphabet[ix] != ' ') buf[cur++] = alphabet[ix];

@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)mkobj.c	3.1	93/05/01	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -515,12 +515,13 @@ register int chance;
 {
 	if(otmp->blessed || otmp->cursed) return;
 
-	if(!rn2(chance))
+	if(!rn2(chance)){
 	    if(!rn2(2)) {
 		curse(otmp);
 	    } else {
 		bless(otmp);
 	    }
+	}
 	return;
 }
 

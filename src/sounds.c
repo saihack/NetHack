@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)sounds.c	3.1	93/03/14	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /*	Copyright (c) 1989 Janet Walz, Mike Threepoint */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -22,9 +22,7 @@ dosounds()
     register xchar hallu;
     register struct mkroom *sroom;
     register int vx, vy;
-#if defined(AMIGA) && defined(AZTEC_C_WORKAROUND)
-    int xx;
-#endif
+
 
     hallu = Hallucination ? 1 : 0;
 
@@ -37,7 +35,7 @@ dosounds()
 		"hear the splashing of a naiad.",
 		"hear a soda fountain!",
 	};
-	You(fountain_msg[rn2(3)+hallu]);
+	You("%s",fountain_msg[rn2(3)+hallu]);
     }
 #ifdef SINK
     if (level.flags.nsinks && !rn2(300)) {
@@ -46,7 +44,7 @@ dosounds()
 		"hear a gurgling noise.",
 		"hear dishes being washed!",
 	};
-	You(sink_msg[rn2(2)+hallu]);
+	You("%s",sink_msg[rn2(2)+hallu]);
     }
 #endif
     if (level.flags.has_court && !rn2(200)) {
@@ -57,7 +55,7 @@ dosounds()
 		"hear Queen Beruthiel's cats!",
 	};
 	int which = rn2(3)+hallu;
-	if (which != 2) You(throne_msg[which]);
+	if (which != 2) You("%s",throne_msg[which]);
 	else		pline(throne_msg[2], his[flags.female]);
 	return;
     }
@@ -67,7 +65,7 @@ dosounds()
 		"smell marsh gas!",	/* so it's a smell...*/
 		"hear Donald Duck!",
 	};
-	You(swamp_msg[rn2(2)+hallu]);
+	You("%s",swamp_msg[rn2(2)+hallu]);
 	return;
     }
     if (level.flags.has_vault && !rn2(200)) {
@@ -85,15 +83,8 @@ dosounds()
 			for (vy = sroom->ly; vy <= sroom->hy; vy++)
 			    if (g_at(vx, vy))
 				gold_in_vault = TRUE;
-#if defined(AMIGA) && defined(AZTEC_C_WORKAROUND)
-		    /* Bug in aztec assembler here. Workaround below */
-		    xx = ROOM_INDEX(sroom) + ROOMOFFSET;
-		    xx = (xx != vault_occupied(u.urooms));
-		    if(xx)
-#else
 		    if (vault_occupied(u.urooms) != 
 			 (ROOM_INDEX(sroom) + ROOMOFFSET))
-#endif /* AZTEC_C_WORKAROUND */
 		    {
 			if (gold_in_vault)
 			    You(!hallu ? "hear someone counting money." :
@@ -152,7 +143,7 @@ dosounds()
 		"hear dice being thrown.",
 		"hear General MacArthur!",
 	};
-	You(barracks_msg[rn2(3)+hallu]);
+	You("%s",barracks_msg[rn2(3)+hallu]);
 	return;
     }
 #endif /* ARMY */
@@ -162,7 +153,7 @@ dosounds()
 		"hear a sound reminiscent of a seal barking.",
 		"hear Doctor Doolittle!",
 	};
-	You(zoo_msg[rn2(2)+hallu]);
+	You("%s",zoo_msg[rn2(2)+hallu]);
 	return;
     }
     if (level.flags.has_shop && !rn2(200)) {
@@ -178,7 +169,7 @@ dosounds()
 		    "hear the chime of a cash register.",
 		    "hear Neiman and Marcus arguing!",
 	    };
-	    You(shop_msg[rn2(2)+hallu]);
+	    You("%s",shop_msg[rn2(2)+hallu]);
 	}
 	return;
     }
@@ -527,7 +518,7 @@ register struct monst *mtmp;
 		    "You're under arrest!",
 		    "Stop in the name of the Law!",
 		};
-		verbalize(arrest_msg[rn2(3)]);
+		verbalize("%s",arrest_msg[rn2(3)]);
 	    }
 	    break;
 # endif
@@ -572,7 +563,7 @@ register struct monst *mtmp;
 		    "The food's not fit for Orcs!",
 		    "My feet hurt, I've been on them all day!",
 		};
-		verbalize(mtmp->mpeaceful ? soldier_pax_msg[rn2(3)]
+		verbalize("%s",mtmp->mpeaceful ? soldier_pax_msg[rn2(3)]
 					  : soldier_foe_msg[rn2(3)]);
 	    }
 	    break;

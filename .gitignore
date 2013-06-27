@@ -1,0 +1,46 @@
+# Object files
+*.o
+
+# Libraries
+*.lib
+*.a
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+
+# created during the build 
+*.lev
+date.h
+pm.h
+onames.h
+options
+oracles
+data
+rumors
+dungeon.def
+dungeon.pdf
+monstr.c
+quest.txt
+quest.dat
+vis_tab.h
+vis_tab.c
+makedefs
+dgncomp.h
+nethack
+dat/dungeon
+dat/quest_levs
+dat/spec_levs
+include/dgn_comp.h
+include/lev_comp.h
+src/Sysunix
+util/dgn_comp
+util/dgn_lex.c
+util/dgn_yacc.c
+util/lev_comp
+util/lev_lex.c
+util/lev_yacc.c
+-

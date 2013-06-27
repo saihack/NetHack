@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)zap.c	3.1	93/06/16	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -128,9 +128,10 @@ register struct obj *otmp;
 		}
 		break;
 	case WAN_SPEED_MONSTER:
-		if (!resist(mtmp, otmp->oclass, 0, NOTELL))
-			if (mtmp->mspeed == MSLOW) mtmp->mspeed = 0;
-			else mtmp->mspeed = MFAST;
+		if (!resist(mtmp, otmp->oclass, 0, NOTELL)){
+			if (mtmp->mspeed == MSLOW)  mtmp->mspeed = 0;
+			else mtmp->mspeed = MFAST; 
+		}
 		wake = TRUE;
 		break;
 	case WAN_UNDEAD_TURNING:
@@ -466,12 +467,13 @@ polyuse(objhdr, mat, minwt)
 	otmp2 = otmp->nexthere;
 	if((objects[otmp->otyp].oc_material == mat) == (rn2(minwt+1) != 0)) {
 	    /* appropriately add damage to bill */
-	    if (costly_spot(otmp->ox, otmp->oy))
+	    if (costly_spot(otmp->ox, otmp->oy)){
 		if (*u.ushops)
 			addtobill(otmp, FALSE, FALSE, FALSE);
 		else
 			(void)stolen_value(otmp, 
 					   otmp->ox, otmp->oy, FALSE, FALSE);
+	    }
 	    minwt -= (int)otmp->quan;
 	    delobj(otmp);
 	}
@@ -573,13 +575,13 @@ struct obj *obj;
 	}
 
 	/* appropriately add damage to bill */
-	if (costly_spot(obj->ox, obj->oy))
+	if (costly_spot(obj->ox, obj->oy)) {
 		if (*u.ushops)
 			addtobill(obj, FALSE, FALSE, FALSE);
 		else
 			(void)stolen_value(obj, 
 					   obj->ox, obj->oy, FALSE, FALSE);
-
+	}
 	/* zap the object */
 	delobj(obj);
 }
@@ -894,7 +896,7 @@ dozap()
 	check_unpaid(obj);
 
 	/* zappable addition done by GAN 11/03/86 */
-	if(!zappable(obj)) pline(nothing_happens);
+	if(!zappable(obj)) pline("%s",nothing_happens);
 	else if(obj->cursed && !rn2(100)) {
 		backfire(obj);	/* the wand blows up in your face! */
 		exercise(A_STR, FALSE);
@@ -2155,7 +2157,7 @@ boolean *shopdamage;
 		    if (ttmp) ttmp->tseen = 1;
 		    if (cansee(x,y)) msgtxt = "The water evaporates.";
 		}
-		Norep(msgtxt);
+		Norep("%s",msgtxt);
 		if (lev->typ == ROOM) newsym(x,y);
 	    }
 	}
@@ -2670,7 +2672,7 @@ retry:
 	if (!otmp) {
 	    pline("Nothing fitting that description exists in the game.");
 	    if (++tries < 5) goto retry;
-	    pline(thats_enough_tries);
+	    pline("%s",thats_enough_tries);
 	    if (!(otmp = readobjnam((char *)0)))
 		return; /* for safety; should never happen */
 	}

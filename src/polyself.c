@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)polyself.c 3.1	93/06/24	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /*	Copyright (C) 1987, 1988, 1989 by Ken Arromdee */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -140,7 +140,7 @@ polyself()
 
 	if(!Polymorph_control && !draconian && !iswere && !isvamp) {
 	    if (rn2(20) > ACURR(A_CON)) {
-		You(shudder_for_moment);
+		You("%s",shudder_for_moment);
 		losehp(rn2(30),"system shock", KILLED_BY_AN);
 		exercise(A_CON, FALSE);
 		return;
@@ -163,7 +163,7 @@ polyself()
 				You("cannot polymorph into that.");
 			else break;
 		} while(++tries < 5);
-		if (tries==5) pline(thats_enough_tries);
+		if (tries==5) pline("%s",thats_enough_tries);
 		/* allow skin merging, even when polymorph is controlled */
 		if (draconian &&
 		    (mntmp == armor_to_dragon(uarm->otyp) || tries == 5))
@@ -692,6 +692,7 @@ doconfuse()
 		    else
 			pline("%s is getting more and more confused.",
 							Monnam(mtmp));
+		   
 		    mtmp->mconf = 1;
 		    if ((mtmp->data==&mons[PM_FLOATING_EYE]) && !mtmp->mcan) {
 			You("are frozen by %s gaze!", 

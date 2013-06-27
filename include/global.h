@@ -1,4 +1,5 @@
 /*	SCCS Id: @(#)global.h	3.1	92/01/04	*/
+/* modified by saihack, 26.06.2013 */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -141,16 +142,9 @@ typedef int winid;		/* a window identifier */
 #include "coord.h"
 #endif
 
-#if defined(VMS) && !defined(VMSCONF_H)
-# include "vmsconf.h"
-#endif
 
 #if defined(UNIX) && !defined(UNIXCONF_H)
 # include "unixconf.h"
-#endif
-
-#if defined(OS2) && !defined(OS2CONF_H)
-# include "os2conf.h"
 #endif
 
 #if defined(MSDOS) && !defined(PCCONF_H)
@@ -161,13 +155,6 @@ typedef int winid;		/* a window identifier */
 # include "tosconf.h"
 #endif
 
-#if defined(AMIGA) && !defined(AMICONF_H)
-# include "amiconf.h"
-#endif
-
-#if defined(MAC) && ! defined(MACCONF_H)
-# include "macconf.h"
-#endif
 
 #if defined(WIN32) && !defined(NTCONF_H)
 # include "ntconf.h"

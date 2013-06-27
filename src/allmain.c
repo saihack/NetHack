@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)allmain.c	3.1	93/06/16	*/
+/*	this file has been modified by saihack, 21.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -224,7 +224,7 @@ moveloop()
 		}
 		if(multi < 0) {
 			if(!++multi){
-				pline(nomovemsg ? nomovemsg :
+				pline("%s",nomovemsg ? nomovemsg :
 					(const char *)"You can move again.");
 				nomovemsg = 0;
 				u.usleep = 0;
@@ -363,16 +363,6 @@ display_gamewindows()
     WIN_MAP = create_nhwindow(NHW_MAP);
     WIN_INVEN = create_nhwindow(NHW_MENU);
 
-#ifdef MAC
-    /*
-     * This _is_ the right place for this - maybe we will
-     * have to split display_gamewindows into create_gamewindows
-     * and show_gamewindows to get rid of this ifdef...
-     */
-	if ( ! strcmp ( windowprocs . name , "mac" ) ) {
-	    SanePositions ( ) ;
-	}
-#endif
 
     /*
      * The mac port is not DEPENDENT on the order of these
@@ -387,9 +377,6 @@ display_gamewindows()
 void
 newgame()
 {
-#ifdef MFLOPPY
-	gameDiskPrompt();
-#endif
 
 	fobj = invent = level.buriedobjlist = migrating_objs = (struct obj *)0;
 	fmon = migrating_mons = (struct monst *)0;

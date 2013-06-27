@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)uhitm.c	3.1	93/02/18	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -253,7 +253,7 @@ register struct monst *mtmp;
 
 	if(unweapon) {
 	    unweapon=FALSE;
-	    if(flags.verbose)
+	    if(flags.verbose){
 		if(uwep)
 		    You("begin bashing monsters with your %s.",
 			aobjnam(uwep, NULL));
@@ -263,6 +263,7 @@ register struct monst *mtmp;
 #endif
 		    You("begin bashing monsters with your %s hands.",
 			uarmg ? "gloved" : "bare");		/* Del Lamb */
+	    }
 	}
 	exercise(A_STR, TRUE);		/* you're exercising muscles */
 	/* andrew@orca: prevent unlimited pick-axe attacks */
@@ -659,14 +660,14 @@ register int thrown;
 		tmp += rnd(6);
 	    else poiskilled = TRUE;
 	}
-	if(tmp < 1)
+	if(tmp < 1){
 	    if (mdat == &mons[PM_SHADE]) {
 		Your("attack passes harmlessly through %s.",
 			mon_nam(mon));
 		hittxt = TRUE;
 	    } else
 		tmp = 1;
-
+	}
 	mon->mhp -= tmp;
 	if(mon->mhp < 1)
 		destroyed = TRUE;
@@ -1159,7 +1160,7 @@ register struct attack *mattk;
 			    You("digest %s.", mon_nam(mdef));
 			    nomul(-tmp);
 			    nomovemsg = msgbuf;
-			} else pline(msgbuf);
+			} else pline("%s",msgbuf);
 			exercise(A_CON, TRUE);
 			return(2);
 		    case AD_PHYS:
@@ -1355,7 +1356,7 @@ use_weapon:
 			if (mon->data == &mons[PM_SHADE])
 			    Your("hug passes harmlessly through %s.",
 				mon_nam(mon));
-			else if (!sticks(mon->data) && !u.uswallow)
+			else if (!sticks(mon->data) && !u.uswallow){
 			    if (mon==u.ustuck) {
 				pline("%s is being %s.", Monnam(mon),
 				    u.umonnum==PM_ROPE_GOLEM ? "choked":
@@ -1366,6 +1367,7 @@ use_weapon:
 				u.ustuck = mon;
 				sum[i] = damageum(mon, mattk);
 			    }
+			}
 			break;
 
 		case AT_EXPL:	/* automatic hit if next to */
@@ -1490,12 +1492,13 @@ boolean kicked;
 		}
 	    break;
 	  case AD_RUST:
-	    if(mhit && !mon->mcan)
+	    if(mhit && !mon->mcan){
 	      if (kicked) {
 		if (uarmf)
 		    (void) rust_dmg(uarmf, xname(uarmf), 1, TRUE);
 	      } else
 		erode_weapon(FALSE);
+	    }
 	    break;
 	  case AD_MAGM:
 	    /* wrath of gods for attacking Oracle */

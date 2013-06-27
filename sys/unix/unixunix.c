@@ -1,16 +1,15 @@
-/*	SCCS Id: @(#)unixunix.c	3.1	90/22/02
+/*	this file has been modified by saihack, 24.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
 /* This file collects some Unix dependencies */
 
 #include "hack.h"	/* mainly for index() which depends on BSD */
-
+#include <unistd.h>
+#include <fcntl.h>
 #include <errno.h>
 #include <sys/stat.h>
-#ifdef NO_FILE_LINKS
-#include <fcntl.h>
-#endif
+
 #include <signal.h>
 #if defined(BSD) || defined(ULTRIX)
 #include <sys/wait.h>

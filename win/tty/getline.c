@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)getline.c	3.1	92/01/05	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -185,11 +185,12 @@ register char *bufp;
 
 			while(extcmdlist[oindex].ef_txt != NULL){
 				if(!strncmpi(obufp, extcmdlist[oindex].ef_txt,
-				    strlen(obufp)))
+				    strlen(obufp))){
 					if(com_index == -1) /* No matches yet*/
 					    com_index = oindex;
 					else /* More than 1 match */
 					    com_index = -2;
+				}
 				oindex++;
 			}
 			if(com_index >= 0){

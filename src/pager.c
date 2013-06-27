@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)pager.c	3.1	93/05/26	*/
+/*	this file has been modified by saihack, 24.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -463,7 +463,7 @@ do_look(quick)
 
 	/* Finally, print out our explanation. */
 	if (found) {
-	    pline(out_str);
+	    pline("%s",out_str);
 	    /* check the data file for information about this thing */
 	    if (found == 1 && !quick && flags.help) {
 		char temp_buf[BUFSZ];

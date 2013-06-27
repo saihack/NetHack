@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)vault.c	3.1	93/03/30	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -467,7 +467,7 @@ register struct monst *grd;
 		return(0);
 	    }
 
-	    if (!u_in_vault)
+	    if (!u_in_vault){
 		if (u_carry_gold) {	/* player teleported */
 		    m = grd->mx;
 		    n = grd->my;
@@ -490,6 +490,7 @@ letknow:
 		    egrd->gddone = 1;
 		    goto cleanup;
 		}
+	    }
 	}
 
 	if(egrd->fcend > 1) {

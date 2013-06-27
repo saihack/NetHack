@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)dokick.c	3.1	93/06/15	*/
+/*	this file has been modified by saihack, 21.06.2013	*/
 /* Copyright (c) Izchak Miller, Mike Stephenson, Steve Linhart, 1989. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -1246,7 +1246,7 @@ int num;
 	    else
 		Sprintf(eos(obuf), " and fall%s %s",
 				otmp->quan == 1L ? "s" : "", gate_str(loc));
-	    pline(obuf);
+	    pline("%s",obuf);
 	} else if(!nodrop)
 	    pline("%s fall%s %s", obuf,
 		  otmp->quan == 1L ? "s" : "",
