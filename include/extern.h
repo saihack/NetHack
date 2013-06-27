@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)extern.h	3.1	93/06/27	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Steve Creps, 1988.				  */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -528,9 +528,6 @@ E void NDECL(makerogueghost);
 /* ### files.c ### */
 
 E FILE *FDECL(fopen_datafile, (const char *,const char *));
-#ifdef MFLOPPY
-E void NDECL(set_lock_and_bones);
-#endif
 E void FDECL(set_levelfile_name, (char *,int));
 E int FDECL(create_levelfile, (int));
 E int FDECL(open_levelfile, (int));
@@ -1166,18 +1163,9 @@ E void FDECL(chdirx, (char *,BOOLEAN_P));
 #ifdef MICRO
 E void NDECL(flushout);
 E int NDECL(dosh);
-# ifdef MFLOPPY
-E void FDECL(eraseall, (const char *,const char *));
-E void FDECL(copybones, (int));
-E void NDECL(playwoRAMdisk);
-E int FDECL(saveDiskPrompt, (int));
-E void NDECL(gameDiskPrompt);
-# endif
 E void FDECL(append_slash, (char *));
 E void FDECL(getreturn, (const char *));
-# ifndef AMIGA
 E void VDECL(msmsg, (const char *,...));
-# endif
 E FILE *FDECL(fopenp, (const char *,const char *));
 E void FDECL(msexit, (int));
 #endif /* MICRO */
@@ -1407,13 +1395,7 @@ E int NDECL(dosave0);
 #ifdef INSURANCE
 E void NDECL(savestateinlock);
 #endif
-#ifdef MFLOPPY
-E boolean FDECL(savelev, (int,XCHAR_P,int));
-E boolean FDECL(swapin_file, (int));
-E void NDECL(co_false);
-#else
 E void FDECL(savelev, (int,XCHAR_P,int));
-#endif
 E void FDECL(bufon, (int));
 E void FDECL(bflush, (int));
 E void FDECL(bwrite, (int,genericptr_t,unsigned int));

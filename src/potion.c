@@ -431,11 +431,11 @@ peffects(otmp)
 		else {
 		    if (Hallucination) {
 		      pline("This tastes like 10%% real %s juice all-natural beverage.",
-			    otmp->odiluted ? "reconstituted " : "");		      
+			    otmp->odiluted ? "reconstituted" : "");		      
 		    } 
 		    else {
-		      pline("This tastes like %s%s juice.", 
-			    otmp->odiluted ? "reconstituted " : "",
+		      pline("This tastes like %s %s juice.", 
+			    otmp->odiluted ? "reconstituted" : "",
 #ifdef TUTTI_FRUTTI			
 			    pl_fruit);
 #else

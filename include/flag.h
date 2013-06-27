@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)flag.h	3.1	93/03/18	*/
+/*	this file has been modified by saihack, 26.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -8,9 +8,6 @@
 struct flag {
 #ifdef AMIFLUSH
 	boolean  amiflush;	/* kill typeahead */
-#endif
-#ifdef	MFLOPPY
-	boolean  asksavedisk;
 #endif
 	boolean  beginner;
 #ifdef MICRO
