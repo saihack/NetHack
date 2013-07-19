@@ -47,7 +47,9 @@
 #define MS_SELL		34	/* demand payment, complain about shoplifters */
 #define MS_ORACLE	35	/* do a consultation */
 #define MS_PRIEST	36	/* ask for contribution; do cleansing */
-
+#ifdef SAI
+#define MS_TUTOR	40 	/* soft-tutors */
+#endif
 
 #define MR_FIRE         0x01    /* resists fire */
 #define MR_COLD         0x02    /* resists cold */

@@ -1,4 +1,4 @@
-/*	SCCS Id: @(#)monst.c	3.1	93/05/26		  */
+/*	this file has been modified by saihack, 24.06.2013	*/
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -1722,6 +1722,37 @@ struct permonst _mons2[] = {
 	  M1_HUMANOID | M1_SEE_INVIS | M1_OMNIVORE,
 	  M2_NOPOLY | M2_HUMAN | M2_MINION | M2_PRINCE | M2_NASTY |
 	  M2_COLLECT | M2_MAGIC, 0, C(WHITE) },
+#ifdef SAI
+       { "prog-tutor", S_HUMAN,	4, 3, 10, 0, 0, (G_SGROUP|G_GENO|1),
+	  { {AT_TEST, AD_PHYS, 1, 8}, NO_ATTK, NO_ATTK,
+	    NO_ATTK, NO_ATTK, NO_ATTK },
+	  WT_HUMAN, 400, 0, MS_TUTOR, MZ_HUMAN, 0, 0,
+	  M1_HUMANOID|M1_OMNIVORE,
+	  M2_NOPOLY|M2_HUMAN|M2_STALK|M2_PEACEFUL|M2_STRONG|M2_COLLECT,
+	  0, C(GRAY)},
+       { "soft-tutor", S_HUMAN,	8, 6, 5, 10, 0, (G_SGROUP|G_GENO|1),
+	  { {AT_TEST, AD_PHYS, 1, 8}, NO_ATTK, NO_ATTK,
+	    NO_ATTK, NO_ATTK, NO_ATTK },
+	  WT_HUMAN, 400, 0, MS_TUTOR, MZ_HUMAN, 0, 0,
+	  M1_HUMANOID|M1_OMNIVORE|M1_REGEN,
+	  M2_NOPOLY|M2_HUMAN|M2_STALK|M2_PEACEFUL|M2_STRONG|M2_COLLECT,
+	  0, C(GRAY)},
+      { "legendary soft-tutor", S_HUMAN, 12, 12, -5, 20, 0, (G_SGROUP|G_GENO|1),
+	{ {AT_TEST, AD_PHYS, 6, 10}, {AT_MAGC, AD_CLRC, 2, 8}, {AT_MAGC, AD_CLRC, 2, 8},
+	{AT_TENT, AD_DRIN, 2, 1}, {AT_TENT, AD_DRIN, 2, 1}, NO_ATTK },
+	WT_HUMAN, 400, 0, MS_TUTOR, MZ_HUMAN, 0, 0,
+	M1_HUMANOID|M1_OMNIVORE,M1_REGEN,
+	M2_NOPOLY|M2_HUMAN|M2_STALK|M2_PEACEFUL|M2_STRONG|M2_COLLECT,
+	0, C(GRAY)},
+     { "SAI employee", S_HUMAN, 18, 12, -10, 20, 0, (G_SGROUP|G_GENO|1),
+	{ {AT_TEST, AD_PHYS, 6, 10}, NO_ATTK, NO_ATTK ,
+	  NO_ATTK, NO_ATTK, NO_ATTK},
+	WT_HUMAN, 400, 0, MS_TUTOR, MZ_HUMAN, 0, 0,
+	M1_HUMANOID|M1_OMNIVORE,M1_REGEN,
+	M2_NOPOLY|M2_HUMAN|M2_STALK|M2_PEACEFUL|M2_STRONG|M2_COLLECT,
+	0, C(GRAY)},
+#endif /* SAI */
+	
 #ifndef MUSE
 	{ "unarmored watchman", S_HUMAN, 6, 4, 10, 0, -2, G_NOGEN,
 	  { { AT_WEAP, AD_PHYS, 1, 8 }, NO_ATTK, NO_ATTK,

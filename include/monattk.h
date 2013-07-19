@@ -22,7 +22,9 @@
 #define AT_EXPL		13		/* explodes - proximity */
 #define AT_GAZE		14		/* gaze - ranged */
 #define AT_TENT		15		/* tentacles */
-
+#ifdef SAI
+#define AT_TEST		16		/* testat */
+#endif
 #define AT_WEAP		254		/* uses weapon */
 #define AT_MAGC		255		/* uses magic spell(s) */
 
